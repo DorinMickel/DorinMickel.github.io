@@ -24,7 +24,8 @@ class App extends React.Component {
 
     this.state = {
       allMembers: membersData,
-      activeMember: null
+      activeMember: null,
+      
     }
   }
   addMember = (newMember) => {
@@ -35,10 +36,22 @@ class App extends React.Component {
       activeMember: newMember
     })
   }
-  
+  // logout = () => {
+  //   this.setState({
+  //     activeMember: null
+  //   })
+  // }
+
+  login = (memberObj) => {
+    this.setState({
+      activeMember: memberObj
+    })
+  }
+
   render(){
     
-    
+    console.log(window.location)
+    console.log(localStorage.localMembers)
     return (
       <HashRouter>
         <Route exact path="/">
@@ -47,19 +60,26 @@ class App extends React.Component {
         <Route exact path="/signup">
           <Signup 
           addMember={this.addMember}
+          allMembers={this.state.allMembers}
           />
         </Route>
         <Route exact path="/login">
-          <Login/>
+          <Login 
+          allMembers={this.state.allMembers}
+          login={this.login}
+          />
         </Route>
         <Route exact path={["/member-dashboard"]}>
-          <MemberNavbar/>
+          <MemberNavbar
+          
+          />
         </Route>
         <Route exact path="/member-dashboard">
           <MemberDashboard
           activeMember={this.state.activeMember}
           />
         </Route>
+        
       </HashRouter>
     );
   }

@@ -1,28 +1,53 @@
 import React from 'react';
-import { Button, Col, Container, Form } from 'react-bootstrap';
+import { Alert, Button, Col, Container, Form } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import './login-signup.css'
 
 class Login extends React.Component {
     constructor(props){
         super(props);
+        this.state = {
+            email: '', 
+            pwd: '',
+            errorText: ''
+        }
     }
+
+    validateData = () => {
+        const validation = this.props.allMembers.find(memberObj => {
+            if(memberObj.email === this.state.email && memberObj.pwd === this.state.pwd){
+                this.props.login(memberObj)
+                window.location.href = "/#/member-dashboard"
+            }
+            else {
+                this.setState({
+                    errorText: "Incorrect email address or password"
+                })
+            }
+        })
+        
+    }
+
     render(){
         return(
             <Container>
                 <h1>Welcome Back</h1>
                 <Form>
                     <Col xs lg="5">
+                        {this.state.errorText ? <Alert variant="danger" onClose={() => {}} dismissible>{this.state.errorText}</Alert> : null}
                         <Form.Group controlId="formGroupEmail">
                             <Form.Label>Email address</Form.Label>
-                            <Form.Control type="email" placeholder="Enter email" />
+                            <Form.Control onChange={(e) => this.setState({email: e.target.value})} type="email" placeholder="Enter email" />
                         </Form.Group>
                         
                         <Form.Group controlId="formGroupPassword">
                             <Form.Label>Password</Form.Label>
-                            <Form.Control type="password" placeholder="Password" />
+                            <Form.Control onChange={(e) => this.setState({pwd: e.target.value})} type="password" placeholder="Password" />
                         </Form.Group>
-                        <Button variant="primary" type="submit">
+                        <Button onClick={this.validateData} variant="primary" type="button">
                         Log me in
                         </Button>
+                        <Link className="login-linkToSignup" to="/signup">SignUp</Link>
                     </Col>
                 </Form>
             </Container>
