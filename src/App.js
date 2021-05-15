@@ -8,6 +8,7 @@ import Signup from './pages/Signup';
 import committeeMembersAccounts from './data/committeeMembersAccounts.json'
 import MemberDashboard from './pages/MemberDashboard';
 import MemberNavbar from './components/MemberNavbar';
+import Tenants from './pages/Tenants';
 
 
 class App extends React.Component {
@@ -78,6 +79,9 @@ class App extends React.Component {
           <MemberDashboard
           activeMember={this.state.activeMember}
           />
+        </Route>
+        <Route exact path="/tenants">
+          <Tenants/> 
         </Route>
         
       </HashRouter>
