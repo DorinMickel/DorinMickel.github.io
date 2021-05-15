@@ -1,7 +1,7 @@
 import React from 'react';
 import { Alert, Button, Col, Container, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import './login-signup.css'
+import './pages.css'
 
 class Login extends React.Component {
     constructor(props){
