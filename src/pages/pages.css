@@ -4,9 +4,13 @@
 
 .tenant-search-input{
     padding-left: 40px;
+    border-radius: 90px;
     
 }
 
+.tenant-filter-box{
+    margin: 8px;
+}
 
 .tenant-filter-button{
     background: transparent;
@@ -16,6 +20,7 @@
     height: 25px;
     position: absolute;
     margin: 5px;
+    
 }
 
 .tenant-filter-button img{
@@ -23,3 +28,39 @@
     height: 20px;
 }
 
+.p-tenants{
+    display: flex;
+    flex-direction: column;
+}
+.add-tenant-btn{
+    width: 10rem;
+    align-self: flex-end;
+    margin: 8px;
+}
+
+.tenants-list{
+    border: solid black 2px;
+    border-radius: 0;
+    margin-bottom: 0;
+}
+
+.tenant-details{
+    display: flex;
+    flex-direction: column;
+    border-top: solid black 2px;
+    padding-top: 8px;
+}
+
+.close-tenant-details{
+    display:none;
+}
+
+.tenant-changes-btn{
+    width: 10rem;
+    align-self: flex-end;
+    margin-top: 20px;
+}
+
+.tenant-changes-btn > button{
+    margin-left: 5px;
+}

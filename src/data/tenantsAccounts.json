@@ -1,0 +1,24 @@
+[
+    {
+        "communityName": "BlaBla",
+        "name": "Dorin Mickel",
+        "email": "test@test.com",
+        "pwd": "123",
+        "apt": "2"
+    },
+    {
+        "communityName": "BlaBla",
+        "name": "Gabi Rozen",
+        "email": "gabi@gabi.com",
+        "pwd": "456",
+        "apt": "5"
+    },
+    {
+        "communityName": "BlaBla",
+        "name": "Neta moabi",
+        "email": "neta@neta.com",
+        "pwd": "789",
+        "apt": "3"
+    }
+
+]

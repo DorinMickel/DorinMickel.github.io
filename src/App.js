@@ -9,6 +9,7 @@ import committeeMembersAccounts from './data/committeeMembersAccounts.json'
 import MemberDashboard from './pages/MemberDashboard';
 import MemberNavbar from './components/MemberNavbar';
 import Tenants from './pages/Tenants';
+import tenantsAccounts from './data/tenantsAccounts.json'
 
 
 class App extends React.Component {
@@ -23,8 +24,17 @@ class App extends React.Component {
       membersData = committeeMembersAccounts
     }
 
+    let tenantsData=[];
+    if(localStorage.localtenants){
+      tenantsData = JSON.parse(localStorage.localtenants)
+    }
+    else {
+      tenantsData = tenantsAccounts
+    }
+
     this.state = {
       allMembers: membersData,
+      allTanents: tenantsData,
       activeMember: null,
       
     }
@@ -81,7 +91,9 @@ class App extends React.Component {
           />
         </Route>
         <Route exact path="/tenants">
-          <Tenants/> 
+          <Tenants 
+          allTanents={this.state.allTanents}
+          /> 
         </Route>
         
       </HashRouter>
