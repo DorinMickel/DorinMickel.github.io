@@ -25,8 +25,8 @@ class App extends React.Component {
     }
 
     let tenantsData=[];
-    if(localStorage.localtenants){
-      tenantsData = JSON.parse(localStorage.localtenants)
+    if(localStorage.localTenants){
+      tenantsData = JSON.parse(localStorage.localTenants)
     }
     else {
       tenantsData = tenantsAccounts
@@ -34,7 +34,7 @@ class App extends React.Component {
 
     this.state = {
       allMembers: membersData,
-      allTanents: tenantsData,
+      allTenants: tenantsData,
       activeMember: null,
       
     }
@@ -47,22 +47,53 @@ class App extends React.Component {
       activeMember: newMember
     })
   }
-  // logout = () => {
-  //   this.setState({
-  //     activeMember: null
-  //   })
-  // }
-
-  login = (memberObj) => {
+  addNewTenant = (newTenant) => {
+    const localtenants = JSON.stringify(this.state.allTenants.concat(newTenant))
+    localStorage.localTenants = localtenants;
     this.setState({
-      activeMember: memberObj
+      allTenants: this.state.allTenants.concat(newTenant)
+    })
+  }
+
+  deleteTenant = (deletedTenant) => {  
+    const clearedTenants = this.state.allTenants.filter((item, index) => {
+      return (index != deletedTenant)
+    })
+    localStorage.localTenants = JSON.stringify(clearedTenants)
+    this.setState({
+      allTenants: clearedTenants
+    })
+  }
+
+  filterTenants = (filterInputText) => {
+    console.log(filterInputText)
+    const filteredTenantsList = this.state.allTenants.filter(input => {
+        return (input.name.includes(filterInputText))
+    })
+    if(filterInputText != ''){
+        this.setState({
+            allTenants: filteredTenantsList
+        })
+    } else {
+        this.setState({
+            allTenants: JSON.parse(localStorage.localTenants)
+        })
+    }
+  }
+  logout = () => {
+    this.setState({
+      activeMember: null
+    })
+  }
+
+  login = (tenantObj) => {
+    this.setState({
+      activeMember: tenantObj
     })
   }
 
   render(){
     
-    console.log(window.location)
-    console.log(localStorage.localMembers)
     return (
       <HashRouter>
         <Route exact path="/">
@@ -76,11 +107,11 @@ class App extends React.Component {
         </Route>
         <Route exact path="/login">
           <Login 
-          allMembers={this.state.allMembers}
+          allTenants={this.state.allTenants}
           login={this.login}
           />
         </Route>
-        <Route exact path={["/member-dashboard"]}>
+        <Route exact path={["/member-dashboard", "/tenants"]}>
           <MemberNavbar
           
           />
@@ -92,7 +123,10 @@ class App extends React.Component {
         </Route>
         <Route exact path="/tenants">
           <Tenants 
-          allTanents={this.state.allTanents}
+          allTenants={this.state.allTenants}
+          addNewTenant={this.addNewTenant}
+          deleteTenant={this.deleteTenant}
+          filterTenants={this.filterTenants}
           /> 
         </Route>
         

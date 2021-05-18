@@ -39,28 +39,36 @@
 }
 
 .tenants-list{
-    border: solid black 2px;
+    border: solid black 1px;
     border-radius: 0;
-    margin-bottom: 0;
+    
 }
 
 .tenant-details{
     display: flex;
     flex-direction: column;
-    border-top: solid black 2px;
-    padding-top: 8px;
+    padding: 8px;
+    border: solid black 1px;
 }
 
-.close-tenant-details{
+.close{
     display:none;
 }
 
 .tenant-changes-btn{
     width: 10rem;
     align-self: flex-end;
-    margin-top: 20px;
+    margin: 20px;
 }
 
 .tenant-changes-btn > button{
     margin-left: 5px;
+}
+
+.add-tenant-modal {
+    position: absolute;
+    z-index: 2;
+    justify-self: center;
+    align-self: center;
+    width: 50rem;
 }
