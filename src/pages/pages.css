@@ -61,7 +61,7 @@
     margin: 20px;
 }
 
-.tenant-changes-btn > button{
+.tenant-changes-btn, .message-details-btn > button{
     margin-left: 5px;
 }
 
@@ -78,10 +78,53 @@
     z-index: 2;
     justify-self: center;
     align-self: center;
-    width: 80rem;
+    width: 50rem;
 }
 
 .message-filter-input {
     padding-left: 40px;
     border-radius: 90px;
+}
+
+.messages-filter-sort, .messages-list{
+    margin-top: 15px;
+}
+
+.messages-list-items {
+    border: solid rgb(87, 86, 86) 1px;
+}
+.message-details{
+    display: flex;
+    padding: 8px;
+    border: solid rgb(87, 86, 86) 1px;
+    
+}
+
+.message-details label {
+    width: 70px;
+}
+
+.message-img {
+    width: 200px;
+    height:200px;
+    border: solid 1px;
+    margin: 10px;
+}
+.message-img img {
+    width: 100%
+}
+
+.message-info {
+    padding: 20px;
+    width: 30rem;
+}
+
+.tenants-comments {
+    border-left: 1px solid rgb(87, 86, 86);
+    padding-left: 20px;
+}
+
+.message-details-btn {
+    align-self: flex-end;
+    margin-left: 10px;
 }

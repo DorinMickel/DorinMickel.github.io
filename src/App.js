@@ -11,6 +11,7 @@ import MemberNavbar from './components/MemberNavbar';
 import Tenants from './pages/Tenants';
 import tenantsAccounts from './data/tenantsAccounts.json'
 import Messages from './pages/Messages';
+import messages from './data/messages.json'
 
 
 class App extends React.Component {
@@ -33,9 +34,18 @@ class App extends React.Component {
       tenantsData = tenantsAccounts
     }
 
+    let messagesData=[];
+    if(localStorage.localmesagges){
+      messagesData = JSON.parse(localStorage.localmesagges)
+    }
+    else {
+      messagesData = messages
+    }
+
     this.state = {
       allMembers: membersData,
       allTenants: tenantsData,
+      allMessages: messagesData,
       activeMember: null,
       
     }
@@ -81,6 +91,15 @@ class App extends React.Component {
         })
     }
   }
+
+  createNewMessage = (newMessageObj) => {
+    const localmesagges = JSON.stringify(this.state.allMessages.concat(newMessageObj))
+    localStorage.localmesagges = localmesagges;
+    this.setState({
+      allMessages: this.state.allMessages.concat(newMessageObj)
+    })
+  }
+
   logout = () => {
     this.setState({
       activeMember: null
@@ -112,10 +131,8 @@ class App extends React.Component {
           login={this.login}
           />
         </Route>
-        <Route exact path={["/member-dashboard", "/tenants", "/messages"]}>
-          <MemberNavbar
-          
-          />
+        <Route exact path={["/member-dashboard", "/tenants", "/messages", "/issues"]}>
+        <MemberNavbar/>
         </Route>
         <Route exact path="/member-dashboard">
           <MemberDashboard
@@ -131,7 +148,9 @@ class App extends React.Component {
           /> 
         </Route>
         <Route exact path="/messages">
-          <Messages/>
+          <Messages
+          allMessages={this.state.allMessages}
+          createNewMessage={this.createNewMessage}/>
         </Route>
         
       </HashRouter>
