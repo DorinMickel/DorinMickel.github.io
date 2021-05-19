@@ -69,6 +69,11 @@ class Tenants extends React.Component{
         })
         console.log(index)
     }
+    handleChange = (event) => {
+        this.setState({
+            [event.target.name]: event.target.value
+        })
+    }
     render(){
         const tenantsList = this.props.allTenants.map(tenant => {
             return (
@@ -104,22 +109,22 @@ class Tenants extends React.Component{
 
                     <Modal.Body>
                     <Form>
-                        <Form.Group controlId="formBasicEmail">
+                        <Form.Group >
                             <Form.Label>Full name</Form.Label>
-                            <Form.Control onChange={e => this.setState({name: e.target.value})} value={this.state.name} type="text" placeholder="Enter name" />
+                            <Form.Control name="name" onChange={this.handleChange} value={this.state.name} type="text" placeholder="Enter name" />
                         </Form.Group>
                         <Form.Group controlId="formBasicEmail">
                             <Form.Label>Email address</Form.Label>
-                            <Form.Control onChange={e => this.setState({email: e.target.value})} value={this.state.email} type="email" placeholder="Enter email" />
+                            <Form.Control name="email" onChange={this.handleChange} value={this.state.email} type="email" placeholder="Enter email" />
                         </Form.Group>
 
                         <Form.Group controlId="formBasicPassword">
                             <Form.Label>Password</Form.Label>
-                            <Form.Control onChange={e => this.setState({pwd: e.target.value})} value={this.state.pwd} type="text" placeholder="Choose password" />
+                            <Form.Control name="pwd" onChange={this.handleChange} value={this.state.pwd} type="text" placeholder="Choose password" />
                         </Form.Group>
-                        <Form.Group controlId="formBasicPassword">
+                        <Form.Group >
                             <Form.Label>Apartment</Form.Label>
-                            <Form.Control onChange={e => this.setState({apt: e.target.value})} value={this.state.apt} type="text" placeholder="#apt" />
+                            <Form.Control name="apt" onChange={this.handleChange} value={this.state.apt} type="text" placeholder="#apt" />
                         </Form.Group>
                         <Form.Group controlId="formBasicCheckbox">
                             <Form.Check type="checkbox" label="Committee member" />
