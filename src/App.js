@@ -10,6 +10,7 @@ import MemberDashboard from './pages/MemberDashboard';
 import MemberNavbar from './components/MemberNavbar';
 import Tenants from './pages/Tenants';
 import tenantsAccounts from './data/tenantsAccounts.json'
+import Messages from './pages/Messages';
 
 
 class App extends React.Component {
@@ -111,7 +112,7 @@ class App extends React.Component {
           login={this.login}
           />
         </Route>
-        <Route exact path={["/member-dashboard", "/tenants"]}>
+        <Route exact path={["/member-dashboard", "/tenants", "/messages"]}>
           <MemberNavbar
           
           />
@@ -128,6 +129,9 @@ class App extends React.Component {
           deleteTenant={this.deleteTenant}
           filterTenants={this.filterTenants}
           /> 
+        </Route>
+        <Route exact path="/messages">
+          <Messages/>
         </Route>
         
       </HashRouter>

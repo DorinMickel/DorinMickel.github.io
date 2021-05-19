@@ -28,11 +28,11 @@
     height: 20px;
 }
 
-.p-tenants{
+.p-tenants, .p-messages{
     display: flex;
     flex-direction: column;
 }
-.add-tenant-btn{
+.add-tenant-btn, .new-message-btn{
     width: 10rem;
     align-self: flex-end;
     margin: 8px;
@@ -71,4 +71,17 @@
     justify-self: center;
     align-self: center;
     width: 50rem;
+}
+
+.new-message-modal {
+    position: absolute;
+    z-index: 2;
+    justify-self: center;
+    align-self: center;
+    width: 80rem;
+}
+
+.message-filter-input {
+    padding-left: 40px;
+    border-radius: 90px;
 }
