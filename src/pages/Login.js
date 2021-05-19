@@ -14,9 +14,9 @@ class Login extends React.Component {
     }
 
     validateData = () => {
-        const validation = this.props.allMembers.find(memberObj => {
-            if(memberObj.email === this.state.email && memberObj.pwd === this.state.pwd){
-                this.props.login(memberObj)
+        const validation = this.props.allTenants.find(tenantObj => {
+            if(tenantObj.email === this.state.email && tenantObj.pwd === this.state.pwd){
+                this.props.login(tenantObj)
                 window.location.href = "/#/member-dashboard"
             }
             else {

@@ -18,7 +18,7 @@ class MemberNavbar extends React.Component {
                         <Nav.Link href="/#/tenants">Tenants</Nav.Link>
                         <Nav.Link href="/#/messages">Messages</Nav.Link>
                         <Nav.Link href="/#/issues">Issues</Nav.Link>
-                        <Nav.Link href="/#/voting">Voiting</Nav.Link>
+                        <Nav.Link href="/#/voting">Voting</Nav.Link>
                     </Nav>
                     <Nav className="ml-auto">
                         <Nav.Link href="/#/">Logout</Nav.Link>

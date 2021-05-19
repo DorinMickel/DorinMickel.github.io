@@ -4,21 +4,24 @@
         "name": "Dorin Mickel",
         "email": "test@test.com",
         "pwd": "123",
-        "apt": "2"
+        "apt": "2",
+        "isCommitteeMember": "true"
     },
     {
         "communityName": "BlaBla",
         "name": "Gabi Rozen",
         "email": "gabi@gabi.com",
         "pwd": "456",
-        "apt": "5"
+        "apt": "5",
+        "isCommitteeMember": "true"
     },
     {
         "communityName": "BlaBla",
         "name": "Neta moabi",
         "email": "neta@neta.com",
         "pwd": "789",
-        "apt": "3"
+        "apt": "3",
+        "isCommitteeMember": "true"
     }
 
 ]
