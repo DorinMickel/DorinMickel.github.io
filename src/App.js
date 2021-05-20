@@ -111,6 +111,10 @@ class App extends React.Component {
     })
   }
 
+  reportNewIssue = (issueObj) => {
+    
+  }
+
   logout = () => {
     this.setState({
       activeMember: null
@@ -148,7 +152,13 @@ class App extends React.Component {
         <Route exact path="/dashboard">
           <Dashboard
           activeMember={this.state.activeMember}
-          />
+          >
+             <Messages
+          allMessages={this.state.allMessages}
+          createNewMessage={this.createNewMessage}/>
+          <Issues 
+          allIssues={this.state.allIssues}/>
+          </Dashboard>
         </Route>
         <Route exact path="/tenants">
           <Tenants 
@@ -165,7 +175,8 @@ class App extends React.Component {
         </Route>
         <Route exact path="/issues">
           <Issues 
-          allIssues={this.state.allIssues}/>
+          allIssues={this.state.allIssues}
+          reportNewIssue={this.reportNewIssue}/>
         </Route>
         
       </HashRouter>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
+import {withRouter} from "react-router-dom"
 import Messages from './Messages'
 
 class Dashboard extends React.Component {
@@ -9,10 +10,10 @@ class Dashboard extends React.Component {
     render(){
         return(
             <Container>
-                
+               {this.props.children}
             </Container>
         )
     }
 }
 
-export default Dashboard;
+export default  withRouter(Dashboard);
