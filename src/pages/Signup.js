@@ -38,7 +38,7 @@ class Signup extends React.Component {
             }
             else {
                 this.props.addMember(newMember)
-                window.location.href="/#/member-dashboard"
+                window.location.href="/#/dashboard"
             }      
     }    
     render(){
