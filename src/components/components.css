@@ -61,3 +61,13 @@
 .issue-details-btn > button{
     margin-left: 5px;
 }
+
+@media screen and (max-width: 1000px) {
+    .issue-details{
+        flex-direction: column;
+    }
+    .members-comments {
+        border-top: 1px solid rgb(87, 86, 86);
+        border-left: none;
+    }
+}
