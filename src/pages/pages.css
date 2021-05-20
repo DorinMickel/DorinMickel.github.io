@@ -28,7 +28,7 @@
     height: 20px;
 }
 
-.p-tenants, .p-messages{
+.p-tenants, .p-messages, .p-issues{
     display: flex;
     flex-direction: column;
 }
@@ -128,3 +128,4 @@
     align-self: flex-end;
     margin-left: 10px;
 }
+

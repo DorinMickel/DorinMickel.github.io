@@ -6,12 +6,14 @@ import Homepage from './pages/Homepage';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import committeeMembersAccounts from './data/committeeMembersAccounts.json'
-import MemberDashboard from './pages/MemberDashboard';
-import MemberNavbar from './components/MemberNavbar';
+import Dashboard from './pages/Dashboard';
+import MainNavbar from './components/MainNavbar';
 import Tenants from './pages/Tenants';
 import tenantsAccounts from './data/tenantsAccounts.json'
 import Messages from './pages/Messages';
 import messages from './data/messages.json'
+import Issues from './pages/Issues';
+import savedIssues from './data/savedIssues.json'
 
 
 class App extends React.Component {
@@ -42,10 +44,19 @@ class App extends React.Component {
       messagesData = messages
     }
 
+    let issuesData = [];
+    if(localStorage.localIssues){
+      issuesData = JSON.parse(localStorage.localIssues)
+    }
+    else {
+      issuesData = savedIssues
+    }
+
     this.state = {
       allMembers: membersData,
       allTenants: tenantsData,
       allMessages: messagesData,
+      allIssues: issuesData,
       activeMember: null,
       
     }
@@ -113,7 +124,7 @@ class App extends React.Component {
   }
 
   render(){
-    
+    console.log(this.state.allTenants)
     return (
       <HashRouter>
         <Route exact path="/">
@@ -131,11 +142,11 @@ class App extends React.Component {
           login={this.login}
           />
         </Route>
-        <Route exact path={["/member-dashboard", "/tenants", "/messages", "/issues"]}>
-        <MemberNavbar/>
+        <Route exact path={["/dashboard", "/tenants", "/messages", "/issues", "/voting"]}>
+        <MainNavbar/>
         </Route>
-        <Route exact path="/member-dashboard">
-          <MemberDashboard
+        <Route exact path="/dashboard">
+          <Dashboard
           activeMember={this.state.activeMember}
           />
         </Route>
@@ -151,6 +162,10 @@ class App extends React.Component {
           <Messages
           allMessages={this.state.allMessages}
           createNewMessage={this.createNewMessage}/>
+        </Route>
+        <Route exact path="/issues">
+          <Issues 
+          allIssues={this.state.allIssues}/>
         </Route>
         
       </HashRouter>
