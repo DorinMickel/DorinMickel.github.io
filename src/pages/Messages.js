@@ -60,11 +60,11 @@ class Messages extends React.Component {
                        </div>
                        <div className="message-info">
                             <div className="d-flex" >
-                                <label className="col-2 p-0">Details:</label>
+                                <label className="mr-2 p-0">Details:</label>
                                 <p >{message.details}</p>
                             </div>
                             <div className="d-flex" >
-                                <label >Priority:</label>
+                                <label className="mr-2 p-0">Priority:</label>
                                 <p >{message.priority}</p>
                             </div>
                         </div>
