@@ -23,12 +23,15 @@ class Signup extends React.Component {
             name: this.state.name,
             email: this.state.email, 
             pwd: this.state.pwd,
+            isCommitteeMember: true
+        }
+        const newCommunity = {
             communityName: this.state.communityName,
             address: this.state.address,
             city: this.state.city
-        }
+        } 
         // TODO: if email exists make alert bootstrap/ add validation in state
-        const foundEmail = this.props.allMembers.find(memberObj => {
+        const foundEmail = this.props.allTenants.find(memberObj => {
             return (memberObj.email === newMember.email)
         })
             if (foundEmail) {
@@ -37,10 +40,12 @@ class Signup extends React.Component {
                 }) 
             }
             else {
-                this.props.addMember(newMember)
+                this.props.addNewTenant(newMember)
+                this.props.addCommunity(newCommunity, newMember)
                 window.location.href="/#/dashboard"
             }      
-    }    
+    }   
+    
     render(){
         return(
             <Container>

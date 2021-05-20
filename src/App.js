@@ -5,7 +5,7 @@ import './App.css';
 import Homepage from './pages/Homepage';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import committeeMembersAccounts from './data/committeeMembersAccounts.json'
+import communityAccounts from './data/communityAccounts.json'
 import Dashboard from './pages/Dashboard';
 import MainNavbar from './components/MainNavbar';
 import Tenants from './pages/Tenants';
@@ -20,12 +20,12 @@ class App extends React.Component {
   constructor(props){
     super(props);
 
-    let membersData=[];
-    if(localStorage.localMembers){
-      membersData = JSON.parse(localStorage.localMembers)
+    let communityData=[];
+    if(localStorage.localCommunities){
+      communityData = JSON.parse(localStorage.localCommunities)
     }
     else {
-      membersData = committeeMembersAccounts
+      communityData = communityAccounts
     }
 
     let tenantsData=[];
@@ -53,20 +53,20 @@ class App extends React.Component {
     }
 
     this.state = {
-      allMembers: membersData,
+      allCommunities: communityData,
       allTenants: tenantsData,
       allMessages: messagesData,
       allIssues: issuesData,
-      activeMember: null,
+      activeUser: null,
       
     }
   }
-  addMember = (newMember) => {
-    const localMemberString = JSON.stringify(this.state.allMembers.concat(newMember))
-    localStorage.localMembers = localMemberString
+  addCommunity = (newCommunity,newMember) => {
+    const localCommunitiestring = JSON.stringify(this.state.allCommunities.concat(newCommunity))
+    localStorage.localCommunities = localCommunitiestring
     this.setState({
-      allMembers: this.state.allMembers.concat(newMember),
-      activeMember: newMember
+      allCommunities: this.state.allCommunities.concat(newCommunity),
+      activeUser: newMember
     })
   }
   addNewTenant = (newTenant) => {
@@ -117,13 +117,13 @@ class App extends React.Component {
 
   logout = () => {
     this.setState({
-      activeMember: null
+      activeUser: null
     })
   }
 
   login = (tenantObj) => {
     this.setState({
-      activeMember: tenantObj
+      activeUser: tenantObj
     })
   }
 
@@ -136,8 +136,10 @@ class App extends React.Component {
         </Route>
         <Route exact path="/signup">
           <Signup 
-          addMember={this.addMember}
-          allMembers={this.state.allMembers}
+          addCommunity={this.addCommunity}
+          addNewTenant={this.addNewTenant}
+          allTenants={this.state.allTenants}
+          allCommunities={this.state.allCommunities}
           />
         </Route>
         <Route exact path="/login">
@@ -151,7 +153,7 @@ class App extends React.Component {
         </Route>
         <Route exact path="/dashboard">
           <Dashboard
-          activeMember={this.state.activeMember}
+          activeUser={this.state.activeUser}
           >
              <Messages
           allMessages={this.state.allMessages}
