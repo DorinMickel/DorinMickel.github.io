@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Container, Form, ListGroup, Modal } from 'react-bootstrap';
 import './pages.css'
+import { v4 as uuidv4 } from 'uuid';
 
 class Tenants extends React.Component{
     constructor(props){
@@ -42,6 +43,7 @@ class Tenants extends React.Component{
     }
     addTanent = () => {
         const tanentObj = {
+            id: uuidv4(),
             name: this.state.name,
             email: this.state.email,
             pwd: this.state.pwd,
