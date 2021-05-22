@@ -30,7 +30,11 @@ class Issues extends React.Component {
         this.setState({
             filterOption: option
         })
-        
+    }
+
+    addNewComment = (newComment) => {
+        this.state.selectedItem.comments.push(newComment)
+        this.props.addIssueComment(this.state.selectedItem.comments, this.state.selectedIndex)
     }
 
     render() {
@@ -47,6 +51,8 @@ class Issues extends React.Component {
                             selectedIndex={this.state.selectedIndex}
                             selectedItem={this.state.selectedItem}
                             removeItem={this.props.removeIssue}
+                            addNewComment={this.addNewComment}
+                            activeUser={this.props.activeUser}
                         />
                     </div>
                 )
