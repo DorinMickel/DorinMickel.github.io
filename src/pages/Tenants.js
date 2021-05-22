@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Container, Form, ListGroup, Modal } from 'react-bootstrap';
 import './pages.css'
 import { v4 as uuidv4 } from 'uuid';
+import TenantsFilter from '../components/TenantFilter';
 
 class Tenants extends React.Component{
     constructor(props){
@@ -14,6 +15,7 @@ class Tenants extends React.Component{
             apt: '',
             isTenantDetailsOpen: false,
             isModalOpen: false,
+            filterText: ''
         }
     }
     showDetails = (tenantObj) => {     
@@ -53,14 +55,18 @@ class Tenants extends React.Component{
         this.props.addNewTenant(tanentObj)
     }
 
-    filterTenants = (event) => {
-        const inputText = event.target.value
-        if(inputText != ''){
-            this.props.filterTenants(event.target.value)
-        }
-        else {
-            this.props.filterTenants('')
-        }   
+    filteredTenants = (inputText) => {
+        // const inputText = event.target.value
+        // if(inputText != ''){
+        //     this.props.filterTenants(event.target.value)
+        // }
+        // else {
+        //     this.props.filterTenants('')
+        // }   
+        this.setState({
+            filterText: inputText
+        })
+        console.log(this.state.filterText)
     }
 
     deleteTenant = () => {
@@ -76,7 +82,10 @@ class Tenants extends React.Component{
         })
     }
     render(){
-        const tenantsList = this.props.allTenants.map(tenant => {
+        const tenantsList = this.props.allTenants.filter(tenant => {
+            const input = this.state.filterText
+            return (tenant.name.toLowerCase().includes(input) || tenant.email.includes(input) || tenant.apt.includes(input) || input === '')
+        }).map(tenant => {
             return (
                 <div>
                     <ListGroup.Item action onClick={() => this.showDetails(tenant)} className="tenants-list">
@@ -96,10 +105,13 @@ class Tenants extends React.Component{
         
         return(
             <Container className="p-tenants">
-                <Form className="tenant-filter-box">
+                {/* <Form className="tenant-filter-box">
                     <button disabled className="tenant-filter-button"><img src="https://www.kindacode.com/wp-content/uploads/2020/12/search.png"/></button>
                     <Form.Control onChange={this.filterTenants} value={this.state.filterInput} className="tenant-search-input" type="text" placeholder="Filter"/>
-                </Form>
+                </Form> */}
+                <TenantsFilter
+                    filteredTenants={this.filteredTenants}
+                />
                 <Button onClick={this.openModal} className="add-tenant-btn" type="button">
                     Add Tenant
                 </Button>
