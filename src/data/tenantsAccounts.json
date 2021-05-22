@@ -1,5 +1,6 @@
 [
     {
+        "userId": "1",
         "communityName": "BlaBla",
         "name": "Dorin Mickel",
         "email": "test@test.com",
@@ -8,6 +9,7 @@
         "isCommitteeMember": "true"
     },
     {
+        "userId": "2",
         "communityName": "BlaBla",
         "name": "Gabi Rozen",
         "email": "gabi@gabi.com",
@@ -16,6 +18,7 @@
         "isCommitteeMember": "true"
     },
     {
+        "userId": "3",
         "communityName": "BlaBla",
         "name": "Neta moabi",
         "email": "neta@neta.com",

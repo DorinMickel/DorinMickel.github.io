@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Col, Container, Form, Modal, Row } from 'react-bootstrap';
 import './components.css'
 import ModalButton from './ModalButton';
+import { v4 as uuidv4 } from 'uuid';
 
 
 class NewIssueModal extends React.Component {
@@ -30,8 +31,18 @@ class NewIssueModal extends React.Component {
         })
     }
 
-    newIssue = () => {
-
+    addNewItem = () => {
+        const newItemObj = {
+            id: uuidv4(),
+            userId: this.props.activeUser.userId,
+            title: this.state.title,
+            details: this.state.details,
+            priority: this.state.priority,
+            imgSrc: this.state.imgSrc,
+            comments: []
+        }
+        this.props.createNewItem(newItemObj)
+        this.closeModal()
     }
 
     render(){
@@ -39,13 +50,14 @@ class NewIssueModal extends React.Component {
         return(
             <div className="c-new-issue-modal">
                 <ModalButton
-                openModal={this.openModal}/>
+                    openModal={this.openModal}
+                    buttonText={this.props.buttonText}/>
                 <Modal.Dialog 
                 size="lg"
                 aria-labelledby="example-modal-sizes-title-lg"
                 className={this.state.isModalOpen ? "new-issue-modal" : "close"}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Elaborate the issue</Modal.Title>
+                        <Modal.Title>{this.props.modalTitle}</Modal.Title>
                     </Modal.Header>
 
                     <Modal.Body>
@@ -67,9 +79,7 @@ class NewIssueModal extends React.Component {
                             <Form.Label column sm={2}>Priority</Form.Label>
                             <Col sm={10}>
                                 <Form.Control name="priority" onChange={this.handleChange} value={this.state.priority} as="select">
-                                <option>Urgent</option>
-                                <option>Important</option>
-                                <option>Normal</option>
+                                    {this.props.priorityOptions}
                                 </Form.Control>
                             </Col>
                         </Form.Group>
@@ -85,7 +95,7 @@ class NewIssueModal extends React.Component {
 
                     <Modal.Footer>
                         <Button onClick={this.closeModal} variant="secondary">Close</Button>
-                        <Button onClick={this.newIssue} variant="primary" >Report</Button>
+                        <Button onClick={this.addNewItem} variant="primary" >{this.props.createBtnText}</Button>
                     </Modal.Footer>
                 </Modal.Dialog>
             </div>

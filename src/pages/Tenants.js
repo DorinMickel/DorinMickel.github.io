@@ -43,7 +43,7 @@ class Tenants extends React.Component{
     }
     addTanent = () => {
         const tanentObj = {
-            id: uuidv4(),
+            userId: uuidv4(),
             name: this.state.name,
             email: this.state.email,
             pwd: this.state.pwd,
@@ -69,7 +69,6 @@ class Tenants extends React.Component{
         this.setState({
             isTenantDetailsOpen: false
         })
-        console.log(index)
     }
     handleChange = (event) => {
         this.setState({

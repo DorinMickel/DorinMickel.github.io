@@ -19,7 +19,7 @@ class Signup extends React.Component {
     }
     CreateMember = () => {
         const newMember = {
-            id: uuidv4(),
+            userId: uuidv4(),
             name: this.state.name,
             email: this.state.email, 
             pwd: this.state.pwd,
