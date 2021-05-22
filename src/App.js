@@ -57,8 +57,15 @@ class App extends React.Component {
       allTenants: tenantsData,
       allMessages: messagesData,
       allIssues: issuesData,
-      activeUser: null,
-      
+      activeUser: {
+        userId: 1,
+        communityName: "BlaBla",
+        name: "Dorin Mickel",
+        email: "test@test.com",
+        pwd: 123,
+        apt: 2,
+        isCommitteeMember: true
+      },
     }
   }
   addCommunity = (newCommunity,newMember) => {
@@ -79,7 +86,7 @@ class App extends React.Component {
 
   deleteTenant = (deletedTenant) => {  
     const clearedTenants = this.state.allTenants.filter((item, index) => {
-      return (index != deletedTenant)
+      return (index !== deletedTenant)
     })
     localStorage.localTenants = JSON.stringify(clearedTenants)
     this.setState({
@@ -87,21 +94,40 @@ class App extends React.Component {
     })
   }
 
-  filterTenants = (filterInputText) => {
-    console.log(filterInputText)
-    const filteredTenantsList = this.state.allTenants.filter(input => {
-        return (input.name.includes(filterInputText))
+  removeIssue = (deletedItem) => {
+    const clearedItems = this.state.allIssues.filter((item, index) => {
+      return (index !== deletedItem)
     })
-    if(filterInputText != ''){
-        this.setState({
-            allTenants: filteredTenantsList
-        })
-    } else {
-        this.setState({
-            allTenants: JSON.parse(localStorage.localTenants)
-        })
-    }
+    localStorage.localIssues = JSON.stringify(clearedItems)
+    this.setState({
+      allIssues: clearedItems
+    })
   }
+
+  removeMessage = (deletedItem) => {
+    const clearedItems = this.state.allMessages.filter((item, index) => {
+      return (index !== deletedItem)
+    })
+    localStorage.localmesagges = JSON.stringify(clearedItems)
+    this.setState({
+      allMessages: clearedItems
+    })
+  }
+
+  // filterTenants = (filterInputText) => {
+  //   const filteredTenantsList = this.state.allTenants.filter(input => {
+  //       return (input.name.includes(filterInputText))
+  //   })
+  //   if(filterInputText != ''){
+  //       this.setState({
+  //           allTenants: filteredTenantsList
+  //       })
+  //   } else {
+  //       this.setState({
+  //           allTenants: JSON.parse(localStorage.localTenants)
+  //       })
+  //   }
+  // }
 
   createNewMessage = (newMessageObj) => {
     const localmesagges = JSON.stringify(this.state.allMessages.concat(newMessageObj))
@@ -112,7 +138,26 @@ class App extends React.Component {
   }
 
   reportNewIssue = (issueObj) => {
+    const localIssuesString = JSON.stringify(this.state.allIssues.concat(issueObj));
+    localStorage.localIssues = localIssuesString;
+    this.setState({
+      allIssues: this.state.allIssues.concat(issueObj)
+    })
+  }
+
+  addIssueComment = (comment, index) => {
+    console.log(comment, index)
+    this.state.allIssues[index].comments.concat(comment)
+    this.setState({
+      allIssues: this.state.allIssues
+    })
+    localStorage.localIssues = JSON.stringify(this.state.allIssues)
     
+    console.log(this.state.allIssues)
+    // localStorage.localIssues[index].comments.concat(localIssuesComments)
+    // this.setState({
+    //   allIssues: this.state.allIssues[index].comments.concat(comment)
+    // })
   }
 
   logout = () => {
@@ -129,6 +174,7 @@ class App extends React.Component {
 
   render(){
     console.log(this.state.allTenants)
+    console.log(this.state.activeUser)
     return (
       <HashRouter>
         <Route exact path="/">
@@ -167,18 +213,25 @@ class App extends React.Component {
           allTenants={this.state.allTenants}
           addNewTenant={this.addNewTenant}
           deleteTenant={this.deleteTenant}
-          filterTenants={this.filterTenants}
+          // filterTenants={this.filterTenants}
           /> 
         </Route>
         <Route exact path="/messages">
           <Messages
           allMessages={this.state.allMessages}
-          createNewMessage={this.createNewMessage}/>
+          activeUser={this.state.activeUser}
+          createNewItem={this.createNewMessage}
+          removeMessage={this.removeMessage}
+          />
         </Route>
         <Route exact path="/issues">
           <Issues 
           allIssues={this.state.allIssues}
-          reportNewIssue={this.reportNewIssue}/>
+          activeUser={this.state.activeUser}
+          createNewItem={this.reportNewIssue}
+          removeIssue={this.removeIssue}
+          addIssueComment={this.addIssueComment}
+          />
         </Route>
         
       </HashRouter>
