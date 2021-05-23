@@ -11,7 +11,7 @@ import MainNavbar from './components/MainNavbar';
 import Tenants from './pages/Tenants';
 import tenantsAccounts from './data/tenantsAccounts.json'
 import Messages from './pages/Messages';
-import messages from './data/messages.json'
+import savedMessages from './data/savedMessages.json'
 import Issues from './pages/Issues';
 import savedIssues from './data/savedIssues.json'
 import Voting from './pages/Voting';
@@ -39,11 +39,11 @@ class App extends React.Component {
     }
 
     let messagesData=[];
-    if(localStorage.localmesagges){
-      messagesData = JSON.parse(localStorage.localmesagges)
+    if(localStorage.localMesagges){
+      messagesData = JSON.parse(localStorage.localMesagges)
     }
     else {
-      messagesData = messages
+      messagesData = savedMessages
     }
 
     let issuesData = [];
@@ -61,13 +61,13 @@ class App extends React.Component {
       allMessages: messagesData,
       allIssues: issuesData,
       activeUser: {
-      userId: 1,
-      communityName: "BlaBla",
-      name: "Dorin Mickel",
-      email: "test@test.com",
-      pwd: 123,
-      apt: 2,
-      isCommitteeMember: true},
+        userId: 1,
+        communityName: "BlaBla",
+        name: "Dorin Mickel",
+        email: "test@test.com",
+        pwd: 123,
+        apt: 2,
+        isCommitteeMember: true},
     }
   }
   addCommunity = (newCommunity,newMember) => {
@@ -110,7 +110,7 @@ class App extends React.Component {
     const clearedItems = this.state.allMessages.filter((item, index) => {
       return (index !== deletedItem)
     })
-    localStorage.localmesagges = JSON.stringify(clearedItems)
+    localStorage.localMesagges = JSON.stringify(clearedItems)
     this.setState({
       allMessages: clearedItems
     })
@@ -134,8 +134,8 @@ class App extends React.Component {
 
 
   createNewMessage = (newMessageObj) => {
-    const localmesagges = JSON.stringify(this.state.allMessages.concat(newMessageObj))
-    localStorage.localmesagges = localmesagges;
+    const localMesagges = JSON.stringify(this.state.allMessages.concat(newMessageObj))
+    localStorage.localMesagges = localMesagges;
     this.setState({
       allMessages: this.state.allMessages.concat(newMessageObj)
     })
@@ -149,26 +149,20 @@ class App extends React.Component {
     })
   }
 
-  addIssueComment = (comments, index) => {
-    console.log(comments, index)
-    this.state.allIssues[index].comments = comments
+  addIssueComment = (comment, index) => {
+    this.state.allIssues[index].comments = comment
     this.setState({
       allIssues: this.state.allIssues
     })
     localStorage.localIssues = JSON.stringify(this.state.allIssues)
-    
-    console.log(this.state.allIssues)
   }
 
-  addMessageComment = (comments, index) => {
-    console.log(comments, index)
-    this.state.allMessages[index].comments = comments
+  addMessageComment = (comment, index) => {
+    this.state.allMessages[index].comments = comment
     this.setState({
       allMessages: this.state.allMessages
     })
     localStorage.localMessages = JSON.stringify(this.state.allMessages)
-    
-    console.log(this.state.allMessages)
   }
 
   logout = () => {
@@ -212,8 +206,7 @@ class App extends React.Component {
               <div className="messages-dashboard">
                 <h2 className="d-flex">New Messages <div className="ml-3 mt-2 number-of-items">{this.state.allMessages.length}</div></h2>
                 <Messages 
-                  allMessages={this.state.allMessages}
-                  createNewMessage={this.createNewMessage}/>
+                  allMessages={this.state.allMessages}/>
               </div>
               <div className="issues-dashboard d-flex flex-fill">
                 <div className="flex-fill">

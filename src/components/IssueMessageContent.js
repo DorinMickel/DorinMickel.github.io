@@ -1,13 +1,14 @@
 import React from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import "./components.css"
+import UpdateModal from './UpdateModal';
 
 
 class IssueMessageContent extends React.Component {
     constructor(props){
         super(props);
         this.state={
-            
+            isUpdateModalOpen: false,
         }
     }
     deleteItem = () => {
@@ -23,17 +24,23 @@ class IssueMessageContent extends React.Component {
     }
 
     addComment = () => {
-        this.props.addNewComment(this.state.comment)
+        const newComment = {
+            userName: this.props.activeUser.name,
+            comment: this.state.comment
+        }
+        this.props.addNewComment(newComment)
         this.setState({
             comment: ''
         })
     }
 
+    
+
     render(){ 
-        const activeUserCopy = {...this.props.activeUser}
-        const comments = this.props.selectedItem.comments.map( comment => {
+        const itemComments = this.props.selectedItem.comments.map( comment => {
             return (<div className="d-flex">
-                <div>{activeUserCopy.name}</div>: <div className="comment-content ml-2">{comment}</div>
+                <div>{comment.userName}</div>: 
+                <div className="comment-content ml-2">{comment.comment}</div>
             </div>)
         })
         return(
@@ -50,13 +57,17 @@ class IssueMessageContent extends React.Component {
                         <label className="mr-2 p-0">Priority:</label>
                         <p className="p-0">{this.props.selectedItem.priority}</p>
                     </div>
-                    <Button className="align-self-end justify-self-end" onClick={this.updaste} type="button">Update</Button>
+                    <div className="align-self-end mt-auto ">
+                        <Button onClick={() => this.props.openUpdateModal(true)} type="button">Update</Button>
+                        <Button className="ml-1" variant="danger">{this.props.deleteBtnText}</Button>
+                    </div>
+                    <UpdateModal/>
                 </div>
                 <div className="flex-fill members-comments">
                     <Form.Group as={Row}>
                     <Form.Label column >Comments:</Form.Label>
                     <div>
-                        {comments}
+                        {itemComments}
                     </div>
                     <Col sm={15}>
                         <Form.Control name="comment" onChange={this.handleChange} value={this.state.comment} as="textarea" lg={6} rows={3} />

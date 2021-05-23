@@ -4,7 +4,7 @@
         "details": "the leak is in front of the building",
         "priority": "important",
         "imgSrc": "https://magazinelandonline.com/wp-content/uploads/2019/12/APOFRAXEIS-VYRONAS-3.jpg",
-        "comments": "[]",
+        "comments": [],
         "id": "1"
     },
     {
@@ -12,7 +12,7 @@
         "details": "On 19/05/2021 at 10:pm, there wil be Plumbing work in the building, hence the water will be off for a couple of hours",
         "priority": "normal",
         "imgSrc": "",
-        "comments": "[]",
+        "comments": [],
         "id": "2"
     }
 ]
