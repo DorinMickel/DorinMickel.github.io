@@ -15,7 +15,7 @@ class ModalButton extends React.Component {
         return(
             <div className="c-modal-btn">
                 <Button onClick={() => this.props.openModal(true)}  type="button">
-                    Report an issue
+                    {this.props.buttonText}
                 </Button>
             </div>
         )
