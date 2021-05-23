@@ -5,6 +5,7 @@ import NewIssueModal from '../components/NewIssueModal';
 import { withRouter } from "react-router-dom"
 import './pages.css'
 import FilterSortBar from '../components/FilterSortBar';
+import Moment from 'react-moment';
 
 
 class Issues extends React.Component {
@@ -13,8 +14,11 @@ class Issues extends React.Component {
         this.state = {
             isOpen: false,
             selectedIndex: -1,
-            selectedItem: {},
-            filterOption: ''
+            selectedItem: {
+                comments:[]
+            },
+            filterOption: '',
+            priority: "normal"
         }
     }
 
@@ -26,6 +30,12 @@ class Issues extends React.Component {
         })
     }
 
+    deletedItem = (close) => {
+        this.setState({
+            isOpen: close,
+        })
+    }
+
     filterIssues = (option) => {
         this.setState({
             filterOption: option
@@ -33,17 +43,24 @@ class Issues extends React.Component {
     }
 
     addNewComment = (newComment) => {
-        this.state.selectedItem.comments.push(newComment)
-        this.props.addIssueComment(this.state.selectedItem.comments, this.state.selectedIndex)
+        const commentsCopy = [...this.state.selectedItem.comments].concat(newComment);
+        const selectedCopy = {...this.state.selectedItem, comments: commentsCopy}
+        this.setState({
+            selectedItem: selectedCopy
+        })
+        this.props.addIssueComment(commentsCopy, this.state.selectedIndex)
     }
 
     render() {
+        const date = new Date();
         const issuesList = this.props.allIssues.filter(issue => {
             return (issue.priority === this.state.filterOption || this.state.filterOption === '')
             }).map((issue, index) => {
                 return (
                     <div key={index}>
-                        <ListGroup.Item className="issues-list-items" onClick={() => this.showIssue(issue, index)}>{issue.title}</ListGroup.Item>
+                        <ListGroup.Item className="d-flex justify-content-between issues-list-items" onClick={() => this.showIssue(issue, index)}>
+                            <div>{issue.title}</div> <div >Issued on: {issue.date}</div>
+                            </ListGroup.Item>
                         <IssueMessageContent
                             allIssues={this.props.allIssues}
                             isOpen={this.state.isOpen}
@@ -51,6 +68,7 @@ class Issues extends React.Component {
                             selectedIndex={this.state.selectedIndex}
                             selectedItem={this.state.selectedItem}
                             removeItem={this.props.removeIssue}
+                            deletedItem={this.deletedItem}
                             addNewComment={this.addNewComment}
                             activeUser={this.props.activeUser}
                         />
@@ -59,6 +77,7 @@ class Issues extends React.Component {
         })
         return (
             <Container className="p-issues">
+                {this.props.location.pathname === "/issues" && 
                 <FilterSortBar
                     priorityOptions={[
                         <option value="normal">Normal</option>,
@@ -66,6 +85,7 @@ class Issues extends React.Component {
                         <option value="urgent">Urgent</option>]}
                     filterIssues={this.filterIssues}
                         />
+                }
                 {this.props.location.pathname === "/issues" && 
                 <NewIssueModal 
                     createNewItem={this.props.createNewItem} 
@@ -76,7 +96,9 @@ class Issues extends React.Component {
                         <option value="normal">Normal</option>,
                         <option value="important">Important</option>,
                         <option value="urgent">Urgent</option>]}
+                    priority={this.state.priority}
                     createBtnText={`Report`}
+                    
                     />}
                 {issuesList}
             </Container>

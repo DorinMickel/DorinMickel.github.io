@@ -1,5 +1,7 @@
 import React from 'react';
-import { Button, Col, Container, Form, ListGroup, Modal, Row } from 'react-bootstrap';
+import { Container, ListGroup, } from 'react-bootstrap';
+import Moment from 'react-moment';
+import { withRouter } from 'react-router';
 import FilterSortBar from '../components/FilterSortBar';
 import IssueMessageContent from '../components/IssueMessageContent';
 import NewIssueModal from '../components/NewIssueModal';
@@ -12,13 +14,15 @@ class Messages extends React.Component {
         this.state={
             isModalOpen:false,
             isOpen: false,
-            selectedItem:{},
+            selectedItem:{
+                comments: []
+            },
             index: -1,
             title: '',
             details: '',
             priority: 'info',
             imgSrc: '',
-            filterOption: ''
+            filterOption: '',
         }
     }
     
@@ -28,6 +32,21 @@ class Messages extends React.Component {
             isOpen: ! this.state.isOpen,
             selectedIndex: index,
             selectedItem: {...message}
+        })
+    }
+
+    addNewComment = (newComment) => {
+        const commentsCopy = [...this.state.selectedItem.comments].concat(newComment);
+        const selectedCopy = {...this.state.selectedItem, comments: commentsCopy}
+        this.setState({
+            selectedItem: selectedCopy
+        })
+        this.props.addMessageComment(commentsCopy, this.state.selectedIndex)
+    }
+
+    deletedItem = (close) => {
+        this.setState({
+            isOpen: close,
         })
     }
 
@@ -43,7 +62,9 @@ class Messages extends React.Component {
         }).map((message, index) => {
             return (
                 <div>
-                    <ListGroup.Item className="messages-list-items" onClick={() => this.openMessage(message, index)}>{message.title}</ListGroup.Item>
+                    <ListGroup.Item className="d-flex justify-content-between messages-list-items" onClick={() => this.openMessage(message, index)}>
+                        <div>{message.title}</div> <div >Posted on: {message.date}</div>
+                        </ListGroup.Item>
                     <IssueMessageContent
                         allMessages={this.props.allMessages}
                         isOpen={this.state.isOpen}
@@ -51,12 +72,16 @@ class Messages extends React.Component {
                         selectedIndex={this.state.selectedIndex}
                         selectedItem={this.state.selectedItem}
                         removeItem={this.props.removeMessage}
+                        deletedItem={this.deletedItem}
+                        addNewComment={this.addNewComment}
+                        activeUser={this.props.activeUser}
                     />
                 </div>
                 )
         })
         return(
             <Container className="p-messages">
+                {this.props.location.pathname === "/messages" &&
                 <FilterSortBar
                     priorityOptions={[
                         <option value="info">Info</option>,
@@ -64,7 +89,8 @@ class Messages extends React.Component {
                     allMessages={this.props.allMessages}
                     filterMessages={this.filterMessages}
                 />
-                                
+                }   
+                {this.props.location.pathname === "/messages" &&            
                 <NewIssueModal
                     createNewItem={this.props.createNewItem} 
                     activeUser={this.props.activeUser}
@@ -73,10 +99,10 @@ class Messages extends React.Component {
                     priorityOptions={[
                         <option value="info">Info</option>,
                         <option value="important">Important!</option>]}
-                    createBtnText={`Create`}
-                    
+                    createBtnText={`Create`}  
+                    priority={this.state.priority}
                 />
-                
+                }   
                 <ListGroup className="messages-list">
                     {messagesList}                    
                 </ListGroup>
@@ -85,4 +111,4 @@ class Messages extends React.Component {
     }
 }
 
-export default Messages;
+export default withRouter(Messages);

@@ -13,6 +13,7 @@ class IssueMessageContent extends React.Component {
     deleteItem = () => {
         const index = this.props.selectedIndex
         this.props.removeItem(index)
+        this.props.deletedItem(false)
     }
 
     handleChange = (event) => {
@@ -28,31 +29,19 @@ class IssueMessageContent extends React.Component {
         })
     }
 
-    showComment = () => {
-        const allComments = this.props.selectedItem.comments
-        console.log(allComments)
-        // .map(comment => {
-        //     return (<div>
-        //             {this.props.activeUser.name}: {comment}
-        //         </div>)
-        // })
-        // return allComments
-    }
-
     render(){ 
-        // const comments = this.props.allIssues[this.props.selectedIndex]
-        // console.log(comments)
-        // .map( comment => {
-        //     return (<div>
-        //         {this.props.activeUser.name}: {comment}
-        //     </div>)
-        // })
+        const activeUserCopy = {...this.props.activeUser}
+        const comments = this.props.selectedItem.comments.map( comment => {
+            return (<div className="d-flex">
+                <div>{activeUserCopy.name}</div>: <div className="comment-content ml-2">{comment}</div>
+            </div>)
+        })
         return(
             <div className={(this.props.isOpen && this.props.index === this.props.selectedIndex) ? "issue-details" : "close"}>
                 <div className="issue-img">
                 <img src={this.props.selectedItem.imgSrc}/> 
                 </div>
-                <div className="issue-info">
+                <div className="d-flex pb-0 flex-column issue-info">
                     <div className="d-flex" >
                         <label className="mr-2 p-0">Details:</label>
                         <p className=" p-0">{this.props.selectedItem.details}</p>
@@ -61,20 +50,19 @@ class IssueMessageContent extends React.Component {
                         <label className="mr-2 p-0">Priority:</label>
                         <p className="p-0">{this.props.selectedItem.priority}</p>
                     </div>
+                    <Button className="align-self-end justify-self-end" onClick={this.updaste} type="button">Update</Button>
                 </div>
                 <div className="flex-fill members-comments">
                     <Form.Group as={Row}>
                     <Form.Label column >Comments:</Form.Label>
                     <div>
-                    {this.props.selectedItem.comments.join("....")}
-                    </div>
-                    <div>
-                        {this.props.isOpen ? this.showComment() : null}
+                        {comments}
                     </div>
                     <Col sm={15}>
                         <Form.Control name="comment" onChange={this.handleChange} value={this.state.comment} as="textarea" lg={6} rows={3} />
                     </Col>
                     </Form.Group>
+                    
                 </div>
                 <div className="issue-details-btn">
                     <Button onClick={this.addComment} type="button">Add Comment</Button>

@@ -3,13 +3,17 @@ import { Button, Col, Container, Form, Modal, Row } from 'react-bootstrap';
 import './components.css'
 import ModalButton from './ModalButton';
 import { v4 as uuidv4 } from 'uuid';
+import Moment from 'react-moment';
 
 
 class NewIssueModal extends React.Component {
     constructor(props){
         super(props);
         this.state={
-            isModalOpen: false
+            isModalOpen: false,
+            validated: false, 
+            setValidated: false,
+            
         }
     }
     
@@ -25,13 +29,15 @@ class NewIssueModal extends React.Component {
         })
     }
 
-    closeModal =() => {
+    closeModal = () => {
         this.setState({
-            isModalOpen: false
+            isModalOpen: false,
         })
     }
 
     addNewItem = () => {
+        const date = new Date();
+        const dateNow = <Moment fromDate format="DD-MM-YYYY">{date}</Moment>
         const newItemObj = {
             id: uuidv4(),
             userId: this.props.activeUser.userId,
@@ -39,11 +45,28 @@ class NewIssueModal extends React.Component {
             details: this.state.details,
             priority: this.state.priority,
             imgSrc: this.state.imgSrc,
-            comments: []
+            comments: [],
+            date: dateNow
         }
         this.props.createNewItem(newItemObj)
         this.closeModal()
+        this.setState({
+            title: '',
+            details: '',
+            priority: this.props.priority,
+            imgSrc: '',
+        })
     }
+
+    // handleSubmit = (event) => {
+    //     const form = event.currentTarget;
+    //     if (form.checkValidity() === false) {
+    //       event.preventDefault();
+    //       event.stopPropagation();
+    //     }
+    
+    //     this.setValidated(true);
+    //   };
 
     render(){
         
@@ -61,17 +84,17 @@ class NewIssueModal extends React.Component {
                     </Modal.Header>
 
                     <Modal.Body>
-                    <Form>
+                    <Form noValidate validated={this.validated} onSubmit={this.handleSubmit}>
                         <Form.Group as={Row}>
                             <Form.Label column sm={2}>Title: </Form.Label>
                             <Col sm={10}>
-                                <Form.Control name="title" onChange={this.handleChange} value={this.state.title} type="text"  />
+                                <Form.Control name="title" onChange={this.handleChange} value={this.state.title} required type="text"  />
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row}>
                             <Form.Label column sm={2}>Details</Form.Label>
                             <Col sm={10}>
-                                <Form.Control name="details" onChange={this.handleChange} value={this.state.details} as="textarea" rows={3} />
+                                <Form.Control name="details" onChange={this.handleChange} value={this.state.details} required as="textarea" rows={3} />
                             </Col>
                         </Form.Group>
 
