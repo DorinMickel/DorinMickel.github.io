@@ -15,6 +15,7 @@ import messages from './data/messages.json'
 import Issues from './pages/Issues';
 import savedIssues from './data/savedIssues.json'
 import Voting from './pages/Voting';
+import Moment from 'react-moment';
 
 
 class App extends React.Component {
@@ -148,19 +149,26 @@ class App extends React.Component {
     })
   }
 
-  addIssueComment = (comment, index) => {
-    console.log(comment, index)
-    this.state.allIssues[index].comments.concat(comment)
+  addIssueComment = (comments, index) => {
+    console.log(comments, index)
+    this.state.allIssues[index].comments = comments
     this.setState({
       allIssues: this.state.allIssues
     })
     localStorage.localIssues = JSON.stringify(this.state.allIssues)
     
     console.log(this.state.allIssues)
-    // localStorage.localIssues[index].comments.concat(localIssuesComments)
-    // this.setState({
-    //   allIssues: this.state.allIssues[index].comments.concat(comment)
-    // })
+  }
+
+  addMessageComment = (comments, index) => {
+    console.log(comments, index)
+    this.state.allMessages[index].comments = comments
+    this.setState({
+      allMessages: this.state.allMessages
+    })
+    localStorage.localMessages = JSON.stringify(this.state.allMessages)
+    
+    console.log(this.state.allMessages)
   }
 
   logout = () => {
@@ -177,7 +185,7 @@ class App extends React.Component {
 
   render(){
     return (
-      <HashRouter basename={process.env.PUBLIC_URL}>
+      <HashRouter>
         <Route exact path="/">
           <Homepage></Homepage>
         </Route>
@@ -235,6 +243,7 @@ class App extends React.Component {
           activeUser={this.state.activeUser}
           createNewItem={this.createNewMessage}
           removeMessage={this.removeMessage}
+          addMessageComment={this.addMessageComment}
           />
         </Route>
         <Route exact path="/issues">
