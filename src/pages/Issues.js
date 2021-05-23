@@ -23,9 +23,10 @@ class Issues extends React.Component {
     }
 
     showIssue = (issue, index) => {
+        const test = index
         this.setState({
             isOpen: !this.state.isOpen,
-            selectedIndex: index,
+            selectedIndex: test,
             selectedItem: { ...issue }
         })
     }
@@ -59,7 +60,8 @@ class Issues extends React.Component {
                 return (
                     <div key={index}>
                         <ListGroup.Item className="d-flex justify-content-between issues-list-items" onClick={() => this.showIssue(issue, index)}>
-                            <div>{issue.title}</div> <div >Issued on: {issue.date}</div>
+                            <div>{issue.title}</div> 
+                            <div >Issued on: <Moment fromDate format="DD-MM-YYYY">{issue.date}</Moment></div>
                             </ListGroup.Item>
                         <IssueMessageContent
                             allIssues={this.props.allIssues}
@@ -71,6 +73,7 @@ class Issues extends React.Component {
                             deletedItem={this.deletedItem}
                             addNewComment={this.addNewComment}
                             activeUser={this.props.activeUser}
+                            deleteBtnText="Resolve Issue"
                         />
                     </div>
                 )

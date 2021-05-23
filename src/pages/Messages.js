@@ -63,7 +63,8 @@ class Messages extends React.Component {
             return (
                 <div>
                     <ListGroup.Item className="d-flex justify-content-between messages-list-items" onClick={() => this.openMessage(message, index)}>
-                        <div>{message.title}</div> <div >Posted on: {message.date}</div>
+                        <div>{message.title}</div> 
+                        <div >Posted on: <Moment fromDate format="DD-MM-YYYY">{message.date}</Moment></div>
                         </ListGroup.Item>
                     <IssueMessageContent
                         allMessages={this.props.allMessages}
@@ -75,6 +76,7 @@ class Messages extends React.Component {
                         deletedItem={this.deletedItem}
                         addNewComment={this.addNewComment}
                         activeUser={this.props.activeUser}
+                        deleteBtnText="Delete Message"
                     />
                 </div>
                 )
