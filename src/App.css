@@ -36,3 +36,29 @@
     transform: rotate(360deg);
   }
 }
+
+.issues-dashboard > div {
+  padding: 20px;
+  margin: 20px;
+}
+
+.resolved-issues-dashboard {
+  border-left: 2px solid black;
+}
+
+.messages-dashboard {
+  margin: 20px;
+  padding: 20px;
+  border-bottom: 2px solid black;
+}
+
+.number-of-items{
+  border-radius: 50%;
+  border: 1px grey solid;
+  width: 30px;
+  height: 30px; 
+  background-color: skyblue;
+  font-size: 20px;
+  text-align: center;
+  color: rgb(70, 66, 66)
+}

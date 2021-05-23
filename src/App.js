@@ -14,6 +14,7 @@ import Messages from './pages/Messages';
 import messages from './data/messages.json'
 import Issues from './pages/Issues';
 import savedIssues from './data/savedIssues.json'
+import Voting from './pages/Voting';
 
 
 class App extends React.Component {
@@ -46,6 +47,7 @@ class App extends React.Component {
 
     let issuesData = [];
     if(localStorage.localIssues){
+  
       issuesData = JSON.parse(localStorage.localIssues)
     }
     else {
@@ -58,14 +60,13 @@ class App extends React.Component {
       allMessages: messagesData,
       allIssues: issuesData,
       activeUser: {
-        userId: 1,
-        communityName: "BlaBla",
-        name: "Dorin Mickel",
-        email: "test@test.com",
-        pwd: 123,
-        apt: 2,
-        isCommitteeMember: true
-      },
+      userId: 1,
+      communityName: "BlaBla",
+      name: "Dorin Mickel",
+      email: "test@test.com",
+      pwd: 123,
+      apt: 2,
+      isCommitteeMember: true},
     }
   }
   addCommunity = (newCommunity,newMember) => {
@@ -129,6 +130,8 @@ class App extends React.Component {
   //   }
   // }
 
+
+
   createNewMessage = (newMessageObj) => {
     const localmesagges = JSON.stringify(this.state.allMessages.concat(newMessageObj))
     localStorage.localmesagges = localmesagges;
@@ -173,8 +176,6 @@ class App extends React.Component {
   }
 
   render(){
-    console.log(this.state.allTenants)
-    console.log(this.state.activeUser)
     return (
       <HashRouter>
         <Route exact path="/">
@@ -198,14 +199,26 @@ class App extends React.Component {
         <MainNavbar/>
         </Route>
         <Route exact path="/dashboard">
-          <Dashboard
-          activeUser={this.state.activeUser}
-          >
-             <Messages
-          allMessages={this.state.allMessages}
-          createNewMessage={this.createNewMessage}/>
-          <Issues 
-          allIssues={this.state.allIssues}/>
+          <Dashboard 
+            activeUser={this.state.activeUser}>
+              <div className="messages-dashboard">
+                <h2 className="d-flex">New Messages <div className="ml-3 mt-2 number-of-items">{this.state.allMessages.length}</div></h2>
+                <Messages 
+                  allMessages={this.state.allMessages}
+                  createNewMessage={this.createNewMessage}/>
+              </div>
+              <div className="issues-dashboard d-flex flex-fill">
+                <div className="flex-fill">
+                  <h2 className="d-flex">New Issues <div className="ml-3 mt-2 number-of-items">{this.state.allIssues.length}</div></h2>
+                  <Issues 
+                    allIssues={this.state.allIssues}/>
+                </div>
+                <div className="resolved-issues-dashboard flex-fill">
+                <h2 className="d-flex">Resolved Issues <div className="ml-3 mt-2 number-of-items">0</div></h2>
+                
+                  There are no resolved issues to show
+                </div>
+              </div>
           </Dashboard>
         </Route>
         <Route exact path="/tenants">
@@ -232,6 +245,9 @@ class App extends React.Component {
           removeIssue={this.removeIssue}
           addIssueComment={this.addIssueComment}
           />
+        </Route>
+        <Route exact path="/voting">
+          <Voting/>
         </Route>
         
       </HashRouter>
