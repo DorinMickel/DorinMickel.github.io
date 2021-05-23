@@ -37,7 +37,6 @@ class NewIssueModal extends React.Component {
 
     addNewItem = () => {
         const date = new Date();
-        const dateNow = <Moment fromDate format="DD-MM-YYYY">{date}</Moment>
         const newItemObj = {
             id: uuidv4(),
             userId: this.props.activeUser.userId,
@@ -46,7 +45,7 @@ class NewIssueModal extends React.Component {
             priority: this.state.priority,
             imgSrc: this.state.imgSrc,
             comments: [],
-            date: dateNow
+            date: date
         }
         this.props.createNewItem(newItemObj)
         this.closeModal()
@@ -58,15 +57,7 @@ class NewIssueModal extends React.Component {
         })
     }
 
-    // handleSubmit = (event) => {
-    //     const form = event.currentTarget;
-    //     if (form.checkValidity() === false) {
-    //       event.preventDefault();
-    //       event.stopPropagation();
-    //     }
     
-    //     this.setValidated(true);
-    //   };
 
     render(){
         
