@@ -18,6 +18,7 @@ class Login extends React.Component {
             if(tenantObj.email === this.state.email && tenantObj.pwd === this.state.pwd){
                 this.props.login(tenantObj)
                 window.location.href = "/#/dashboard"
+                
             }
             else {
                 this.setState({
@@ -25,7 +26,6 @@ class Login extends React.Component {
                 })
             }
         })
-        
     }
 
     render(){
@@ -37,12 +37,12 @@ class Login extends React.Component {
                         {this.state.errorText ? <Alert variant="danger" onClose={() => {}} dismissible>{this.state.errorText}</Alert> : null}
                         <Form.Group controlId="formGroupEmail">
                             <Form.Label>Email address</Form.Label>
-                            <Form.Control onChange={(e) => this.setState({email: e.target.value})} type="email" placeholder="Enter email" />
+                            <Form.Control onChange={(e) => this.setState({email: e.target.value})} value={this.state.email} type="email" placeholder="Enter email" />
                         </Form.Group>
                         
                         <Form.Group controlId="formGroupPassword">
                             <Form.Label>Password</Form.Label>
-                            <Form.Control onChange={(e) => this.setState({pwd: e.target.value})} type="password" placeholder="Password" />
+                            <Form.Control onChange={(e) => this.setState({pwd: e.target.value})} value={this.state.pwd} type="password" placeholder="Password" />
                         </Form.Group>
                         <Button onClick={this.validateData} variant="primary" type="button">
                         Log me in

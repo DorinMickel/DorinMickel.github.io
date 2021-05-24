@@ -8,7 +8,7 @@ class IssueMessageContent extends React.Component {
     constructor(props){
         super(props);
         this.state={
-            isUpdateModalOpen: false,
+            // isUpdateModalOpen: false,
         }
     }
     deleteItem = () => {
@@ -34,9 +34,20 @@ class IssueMessageContent extends React.Component {
         })
     }
 
-    
+    // openUpdateModal = () => {
+    //     const openModal = {...this.state.isUpdateModalOpen}
+    //     this.setState({
+    //         isUpdateModalOpen: true
+    //     })
+    //     return openModal
+    // }
+
+    updateItem = () => {
+        this.props.openUpdateModal(true)
+    }
 
     render(){ 
+        const ativeUserCopy = {...this.props.activeUser}        
         const itemComments = this.props.selectedItem.comments.map( comment => {
             return (<div className="d-flex">
                 <div>{comment.userName}</div>: 
@@ -57,11 +68,14 @@ class IssueMessageContent extends React.Component {
                         <label className="mr-2 p-0">Priority:</label>
                         <p className="p-0">{this.props.selectedItem.priority}</p>
                     </div>
+                    {(this.props.IssueUpdateDeleteBtn && (this.props.selectedItem.userId===ativeUserCopy.userId)) ? 
                     <div className="align-self-end mt-auto ">
-                        <Button onClick={() => this.props.openUpdateModal(true)} type="button">Update</Button>
-                        <Button className="ml-1" variant="danger">{this.props.deleteBtnText}</Button>
-                    </div>
-                    <UpdateModal/>
+                        <Button onClick={this.updateItem} type="button">Update</Button>
+                        <Button onClick={this.deleteItem} className="ml-1" variant="danger">{this.props.deleteBtnText}</Button>
+                    </div> : null}
+                    {/* <UpdateModal
+                        isUpdateModalOpen={this.state.isUpdateModalOpen}
+                        UpdateModalTitle={this.props.UpdateModalTitle}/> */}
                 </div>
                 <div className="flex-fill members-comments">
                     <Form.Group as={Row}>
@@ -77,7 +91,7 @@ class IssueMessageContent extends React.Component {
                 </div>
                 <div className="issue-details-btn">
                     <Button onClick={this.addComment} type="button">Add Comment</Button>
-                    <Button onClick={this.deleteItem} variant="danger">Delete</Button>
+                    
                 </div>
             </div>
         )

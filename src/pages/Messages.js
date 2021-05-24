@@ -77,6 +77,7 @@ class Messages extends React.Component {
                         addNewComment={this.addNewComment}
                         activeUser={this.props.activeUser}
                         deleteBtnText="Delete Message"
+                        UpdateModalTitle="Update Message Details"
                     />
                 </div>
                 )

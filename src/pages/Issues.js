@@ -6,6 +6,7 @@ import { withRouter } from "react-router-dom"
 import './pages.css'
 import FilterSortBar from '../components/FilterSortBar';
 import Moment from 'react-moment';
+import UpdateModal from '../components/UpdateModal';
 
 
 class Issues extends React.Component {
@@ -18,7 +19,9 @@ class Issues extends React.Component {
                 comments:[]
             },
             filterOption: '',
-            priority: "normal"
+            priority: "normal",
+            //
+            isUpdateModalOpen: false
         }
     }
 
@@ -52,7 +55,15 @@ class Issues extends React.Component {
         this.props.addIssueComment(commentsCopy, this.state.selectedIndex)
     }
 
+    //
+    openUpdateModal = (updateModalState) => {
+        this.setState({
+            isUpdateModalOpen: updateModalState
+        })
+    }
+
     render() {
+        const activeUserCopy = {...this.props.activeUser}
         const date = new Date();
         const issuesList = this.props.allIssues.filter(issue => {
             return (issue.priority === this.state.filterOption || this.state.filterOption === '')
@@ -72,8 +83,12 @@ class Issues extends React.Component {
                             removeItem={this.props.removeIssue}
                             deletedItem={this.deletedItem}
                             addNewComment={this.addNewComment}
-                            activeUser={this.props.activeUser}
+                            activeUser={activeUserCopy}
                             deleteBtnText="Resolve Issue"
+                            UpdateModalTitle="Update Issue Details"
+                            IssueUpdateDeleteBtn={true}
+                            //
+                            openUpdateModal={this.openUpdateModal}
                         />
                     </div>
                 )
@@ -101,6 +116,12 @@ class Issues extends React.Component {
                         <option value="urgent">Urgent</option>]}
                     priority={this.state.priority}
                     createBtnText={`Report`}
+                    tenantCreateIssue={true}
+                    //
+                    isUpdateModalOpen={this.state.isUpdateModalOpen}
+                    openUpdateModal={this.openUpdateModal}
+                    selectedItem={this.state.selectedItem}
+                    updateItem={this.props.updateItem}
                     
                     />}
                 {issuesList}
