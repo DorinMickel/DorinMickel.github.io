@@ -20,6 +20,7 @@ class Issues extends React.Component {
             },
             filterOption: '',
             priority: "normal",
+            searchText: '',
             //
             isUpdateModalOpen: false
         }
@@ -55,6 +56,12 @@ class Issues extends React.Component {
         this.props.addIssueComment(commentsCopy, this.state.selectedIndex)
     }
 
+    searchIssues = (searchInput) => {
+        this.setState({
+            searchText: searchInput
+        })
+    }
+
     //
     openUpdateModal = (updateModalState) => {
         this.setState({
@@ -66,7 +73,8 @@ class Issues extends React.Component {
         const activeUserCopy = {...this.props.activeUser}
         const date = new Date();
         const issuesList = this.props.allIssues.filter(issue => {
-            return (issue.priority === this.state.filterOption || this.state.filterOption === '')
+            return ((issue.priority === this.state.filterOption || this.state.filterOption === '') && 
+            (issue.title.toLowerCase().includes(this.state.searchText.toLowerCase()) || issue.details.toLowerCase().includes(this.state.searchText.toLowerCase())) )
             }).map((issue, index) => {
                 return (
                     <div key={index}>
@@ -92,7 +100,7 @@ class Issues extends React.Component {
                         />
                     </div>
                 )
-        })
+        }).sort((a, b) => a.date - b.date)
         return (
             <Container className="p-issues">
                 {this.props.location.pathname === "/issues" && 
@@ -102,6 +110,7 @@ class Issues extends React.Component {
                         <option value="important">Important</option>,
                         <option value="urgent">Urgent</option>]}
                     filterIssues={this.filterIssues}
+                    searchIssues={this.searchIssues}
                         />
                 }
                 {this.props.location.pathname === "/issues" && 

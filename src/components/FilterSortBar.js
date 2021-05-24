@@ -6,7 +6,10 @@ import './components.css'
 class FilterSortBar extends React.Component {
     constructor(props){
         super(props);
-        
+        this.state ={
+            item: '',
+            
+        }
     }
     
     filterByPriority = (event) => {
@@ -19,13 +22,23 @@ class FilterSortBar extends React.Component {
         }
     }
 
+    searchWithText = (event) => {
+        const val = event.target.value
+        if(this.props.searchIssues){
+            this.props.searchIssues(val)
+        }
+        else {
+            this.props.searchMessage(val)
+        }
+    }
+
     render(){
         return(
                 <Form className="messages-filter-sort">
                     <Form.Row className="justify-content-around">
                         <Form.Group as={Col} sm={6}>
                             <button disabled className="tenant-filter-button"><img src="https://www.kindacode.com/wp-content/uploads/2020/12/search.png"/></button>
-                            <Form.Control  className="message-filter-input" type="text" placeholder="Search"/>
+                            <Form.Control onChange={this.searchWithText} className="message-filter-input" type="text" placeholder="Search"/>
                         </Form.Group>
                         <Form.Group as={Col} sm={3} controlId="formGridState">
                             

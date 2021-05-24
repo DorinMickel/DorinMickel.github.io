@@ -23,6 +23,7 @@ class Messages extends React.Component {
             priority: 'info',
             imgSrc: '',
             filterOption: '',
+            searchText: ''
         }
     }
     
@@ -55,10 +56,17 @@ class Messages extends React.Component {
             filterOption: option
         })
     }
+
+    searchMessage = (searchInput) => {
+        this.setState({
+            searchText: searchInput
+        })
+    }
     
     render(){
         const messagesList = this.props.allMessages.filter(message => {
-            return(message.priority === this.state.filterOption || this.state.filterOption === '')
+            return((message.priority === this.state.filterOption || this.state.filterOption === '') &&
+            (message.title.toLowerCase().includes(this.state.searchText.toLowerCase()) || message.title.toLowerCase().includes(this.state.searchText.toLowerCase())))
         }).map((message, index) => {
             return (
                 <div>
@@ -91,6 +99,7 @@ class Messages extends React.Component {
                         <option value="important">Important!</option>]}
                     allMessages={this.props.allMessages}
                     filterMessages={this.filterMessages}
+                    searchMessage={this.searchMessage}
                 />
                 }   
                 {this.props.location.pathname === "/messages" &&            
