@@ -2,7 +2,6 @@ import React from 'react';
 import { Button, Container, Form, ListGroup, Modal } from 'react-bootstrap';
 import './pages.css'
 import { v4 as uuidv4 } from 'uuid';
-import TenantsFilter from '../components/TenantFilter';
 
 class Tenants extends React.Component{
     constructor(props){
@@ -55,18 +54,10 @@ class Tenants extends React.Component{
         this.props.addNewTenant(tanentObj)
     }
 
-    filteredTenants = (inputText) => {
-        // const inputText = event.target.value
-        // if(inputText != ''){
-        //     this.props.filterTenants(event.target.value)
-        // }
-        // else {
-        //     this.props.filterTenants('')
-        // }   
+    filteredTenants = (event) => { 
         this.setState({
-            filterText: inputText
+            filterText: event.target.value
         })
-        console.log(this.state.filterText)
     }
 
     deleteTenant = () => {
@@ -105,13 +96,10 @@ class Tenants extends React.Component{
         
         return(
             <Container className="p-tenants">
-                {/* <Form className="tenant-filter-box">
+                <Form className="tenant-filter-box">
                     <button disabled className="tenant-filter-button"><img src="https://www.kindacode.com/wp-content/uploads/2020/12/search.png"/></button>
-                    <Form.Control onChange={this.filterTenants} value={this.state.filterInput} className="tenant-search-input" type="text" placeholder="Filter"/>
-                </Form> */}
-                <TenantsFilter
-                    filteredTenants={this.filteredTenants}
-                />
+                    <Form.Control onChange={this.filteredTenants} value={this.state.filterText} className="tenant-search-input" type="text" placeholder="Filter"/>
+                </Form>
                 <Button onClick={this.openModal} className="add-tenant-btn" type="button">
                     Add Tenant
                 </Button>
