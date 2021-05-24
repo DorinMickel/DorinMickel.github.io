@@ -19,10 +19,13 @@ class Issues extends React.Component {
                 comments:[]
             },
             filterOption: '',
-            priority: "normal",
+            priority: 0,
             searchText: '',
+            prioritySort: false,
             //
             isUpdateModalOpen: false
+
+
         }
     }
 
@@ -62,6 +65,12 @@ class Issues extends React.Component {
         })
     }
 
+    sortingByPriority = (options) => {
+        this.setState({
+            prioritySort: options
+        })
+    }
+
     //
     openUpdateModal = (updateModalState) => {
         this.setState({
@@ -70,11 +79,15 @@ class Issues extends React.Component {
     }
 
     render() {
+        const priorityArr = ["Normal", "Important","Urgent"]
         const activeUserCopy = {...this.props.activeUser}
         const date = new Date();
-        const issuesList = this.props.allIssues.filter(issue => {
-            return ((issue.priority === this.state.filterOption || this.state.filterOption === '') && 
-            (issue.title.toLowerCase().includes(this.state.searchText.toLowerCase()) || issue.details.toLowerCase().includes(this.state.searchText.toLowerCase())) )
+        const issuesList = this.props.allIssues.slice().sort((a, b) => {
+            return ((this.state.prioritySort) ? a.priority - b.priority : 0)
+            }).filter(issue => {
+            return ((priorityArr[issue.priority] === this.state.filterOption || this.state.filterOption === '') && 
+            (issue.title.toLowerCase().includes(this.state.searchText.toLowerCase()) || 
+            issue.details.toLowerCase().includes(this.state.searchText.toLowerCase())))
             }).map((issue, index) => {
                 return (
                     <div key={index}>
@@ -100,17 +113,19 @@ class Issues extends React.Component {
                         />
                     </div>
                 )
-        }).sort((a, b) => a.date - b.date)
+        }).reverse()
         return (
             <Container className="p-issues">
                 {this.props.location.pathname === "/issues" && 
                 <FilterSortBar
                     priorityOptions={[
-                        <option value="normal">Normal</option>,
-                        <option value="important">Important</option>,
-                        <option value="urgent">Urgent</option>]}
+                        <option value="Normal">Normal</option>,
+                        <option value="Important">Important</option>,
+                        <option value="Urgent">Urgent</option>]}
                     filterIssues={this.filterIssues}
                     searchIssues={this.searchIssues}
+                    IssuesSort={true}
+                    sortingByPriority={this.sortingByPriority}
                         />
                 }
                 {this.props.location.pathname === "/issues" && 
@@ -120,9 +135,9 @@ class Issues extends React.Component {
                     buttonText={`Report an issue`}
                     modalTitle={`Elaborate the issue`}
                     priorityOptions={[
-                        <option value="normal">Normal</option>,
-                        <option value="important">Important</option>,
-                        <option value="urgent">Urgent</option>]}
+                        <option value={0}>Normal</option>,
+                        <option value={1}>Important</option>,
+                        <option value={2}>Urgent</option>]}
                     priority={this.state.priority}
                     createBtnText={`Report`}
                     tenantCreateIssue={true}

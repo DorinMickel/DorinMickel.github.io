@@ -32,10 +32,18 @@ class FilterSortBar extends React.Component {
         }
     }
 
+    sortByPriority = () => {
+        this.props.sortingByPriority(true)
+    }
+
+    sortByDate = () => {
+        this.props.sortingByPriority(false)
+    }
+ 
     render(){
         return(
                 <Form className="messages-filter-sort">
-                    <Form.Row className="justify-content-around">
+                    <Form.Row className={(this.props.IssuesSort) ? "justify-content-around" : "justify-content-start"}>
                         <Form.Group as={Col} sm={6}>
                             <button disabled className="tenant-filter-button"><img src="https://www.kindacode.com/wp-content/uploads/2020/12/search.png"/></button>
                             <Form.Control onChange={this.searchWithText} className="message-filter-input" type="text" placeholder="Search"/>
@@ -47,19 +55,27 @@ class FilterSortBar extends React.Component {
                                 {this.props.priorityOptions}
                             </Form.Control>
                         </Form.Group>
-                        <Form.Group as={Row} sm={3}>
-                        <Form.Label as="legend" column >
-                            Sort By:
-                        </Form.Label>
-                                <Form.Check className="align-self-center"
-                                type="radio"
-                                label="Date"
-                                />
-                                <Form.Check className="align-self-center"
-                                type="radio"
-                                label="Priority"
-                                />
-                        </Form.Group>
+                        {(this.props.IssuesSort) ? 
+                            <Form.Group as={Row} sm={3}>
+                            <Form.Label as="legend" column >
+                                Sort By:
+                            </Form.Label>
+                                    <Form.Check 
+                                    onChange={this.sortByDate} 
+                                    className="align-self-center"
+                                    name="sort"
+                                    type="radio"
+                                    label="Date"
+                                    />
+                                    <Form.Check 
+                                    onChange={this.sortByPriority} 
+                                    className="align-self-center"
+                                    name="sort"
+                                    type="radio"
+                                    label="Priority"
+                                    />
+                            </Form.Group>
+                        : null}
                     </Form.Row>
                 </Form>
         )

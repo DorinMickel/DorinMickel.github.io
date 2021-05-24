@@ -47,6 +47,7 @@ class IssueMessageContent extends React.Component {
     }
 
     render(){ 
+        const priorityArr = ["Normal", "Important","Urgent"]
         const ativeUserCopy = {...this.props.activeUser}        
         const itemComments = this.props.selectedItem.comments.map( comment => {
             return (<div className="d-flex">
@@ -54,6 +55,7 @@ class IssueMessageContent extends React.Component {
                 <div className="comment-content ml-2">{comment.comment}</div>
             </div>)
         })
+        
         return(
             <div className={(this.props.isOpen && this.props.index === this.props.selectedIndex) ? "issue-details" : "close"}>
                 <div className="issue-img">
@@ -66,9 +68,10 @@ class IssueMessageContent extends React.Component {
                     </div>
                     <div className="d-flex " >
                         <label className="mr-2 p-0">Priority:</label>
-                        <p className="p-0">{this.props.selectedItem.priority}</p>
+                        <p className="p-0">{priorityArr[this.props.selectedItem.priority]}</p>
                     </div>
-                    {(this.props.IssueUpdateDeleteBtn && (this.props.selectedItem.userId===ativeUserCopy.userId)) ? 
+                    {((this.props.IssueUpdateDeleteBtn && (this.props.selectedItem.userId===ativeUserCopy.userId)) ||
+                    (ativeUserCopy.isCommitteeMember && this.props.MessagesUpdateDeleteBtn)) ? 
                     <div className="align-self-end mt-auto ">
                         <Button onClick={this.updateItem} type="button">Update</Button>
                         <Button onClick={this.deleteItem} className="ml-1" variant="danger">{this.props.deleteBtnText}</Button>
