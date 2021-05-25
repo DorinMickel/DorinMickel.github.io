@@ -6,7 +6,7 @@ import { withRouter } from "react-router-dom"
 import './pages.css'
 import FilterSortBar from '../components/FilterSortBar';
 import Moment from 'react-moment';
-import UpdateModal from '../components/UpdateModal';
+
 
 
 class Issues extends React.Component {
@@ -19,12 +19,14 @@ class Issues extends React.Component {
                 comments:[]
             },
             filterOption: '',
-            priority: 0,
             searchText: '',
             prioritySort: false,
             //
-            isUpdateModalOpen: false
-
+            isUpdateModalOpen: false,
+            priority: 0,
+            title: '',
+            details: '',
+            imgSrc: '',
 
         }
     }
@@ -72,9 +74,9 @@ class Issues extends React.Component {
     }
 
     //
-    openUpdateModal = (updateModalState) => {
+    closeContent = (close) => {
         this.setState({
-            isUpdateModalOpen: updateModalState
+            isOpen: close,
         })
     }
 
@@ -109,7 +111,12 @@ class Issues extends React.Component {
                             UpdateModalTitle="Update Issue Details"
                             IssueUpdateDeleteBtn={true}
                             //
-                            openUpdateModal={this.openUpdateModal}
+                            closeContent={this.closeContent}
+                            priorityOptions={[
+                                <option value={0}>Normal</option>,
+                                <option value={1}>Important</option>,
+                                <option value={2}>Urgent</option>]}
+                            updateItemDetails={this.props.updateItemDetails}
                         />
                     </div>
                 )
@@ -141,12 +148,6 @@ class Issues extends React.Component {
                     priority={this.state.priority}
                     createBtnText={`Report`}
                     tenantCreateIssue={true}
-                    //
-                    isUpdateModalOpen={this.state.isUpdateModalOpen}
-                    openUpdateModal={this.openUpdateModal}
-                    selectedItem={this.state.selectedItem}
-                    updateItem={this.props.updateItem}
-                    
                     />}
                 {issuesList}
             </Container>

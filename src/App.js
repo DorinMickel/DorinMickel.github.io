@@ -15,7 +15,7 @@ import savedMessages from './data/savedMessages.json'
 import Issues from './pages/Issues';
 import savedIssues from './data/savedIssues.json'
 import Voting from './pages/Voting';
-import Moment from 'react-moment';
+
 
 
 class App extends React.Component {
@@ -150,12 +150,31 @@ class App extends React.Component {
     localStorage.localMessages = JSON.stringify(this.state.allMessages)
   }
 
-  updateIssueItem = (item) => {
-    const updatedItem = this.state.allIssues.find( issue => {
-      return (issue.id === item.id)
+  updateIssueItem = (Issue) => {
+    const IssueToUpdate = this.state.allIssues[Issue.index]
+    IssueToUpdate.title = Issue.title
+    IssueToUpdate.details = Issue.details
+    IssueToUpdate.priority = Issue.priority
+    IssueToUpdate.imgSrc = Issue.imgSrc
+
+    this.setState({
+      allIssues: this.state.allIssues
     })
-    console.log(updatedItem)
+    localStorage.localIssues = JSON.stringify(this.state.allIssues)
   } 
+
+  updateMessageItem = (message) => {
+    const MessageToUpdate = this.state.allMessages[message.index]
+    MessageToUpdate.title = message.title
+    MessageToUpdate.details = message.details
+    MessageToUpdate.priority = message.priority
+    MessageToUpdate.imgSrc = message.imgSrc
+
+    this.setState({
+      allMessages: this.state.allMessages
+    })
+    localStorage.localMessages = JSON.stringify(this.state.allMessages)
+  }
 
   editTenantDetails = (updatedTenantObj, index) => {
     const tenantToUpdate = this.state.allTenants[index]
@@ -244,7 +263,7 @@ class App extends React.Component {
           createNewItem={this.createNewMessage}
           removeMessage={this.removeMessage}
           addMessageComment={this.addMessageComment}
-          updateItem={this.updateItem}
+          updateItemDetails={this.updateMessageItem}
           />
         </Route>
         <Route exact path="/issues">
@@ -255,6 +274,7 @@ class App extends React.Component {
           removeIssue={this.removeIssue}
           addIssueComment={this.addIssueComment}
           updateItem={this.updateIssueItem}
+          updateItemDetails={this.updateIssueItem}
           />
         </Route>
         <Route exact path="/voting">

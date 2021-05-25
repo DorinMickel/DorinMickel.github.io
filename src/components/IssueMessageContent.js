@@ -1,14 +1,15 @@
 import React from 'react';
-import { Button, Col, Form, Row } from 'react-bootstrap';
+import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
 import "./components.css"
-import UpdateModal from './UpdateModal';
+
 
 
 class IssueMessageContent extends React.Component {
     constructor(props){
         super(props);
         this.state={
-            // isUpdateModalOpen: false,
+            isUpdateModalOpen: false,
+            index: -1,
         }
     }
     deleteItem = () => {
@@ -34,19 +35,52 @@ class IssueMessageContent extends React.Component {
         })
     }
 
-    // openUpdateModal = () => {
-    //     const openModal = {...this.state.isUpdateModalOpen}
-    //     this.setState({
-    //         isUpdateModalOpen: true
-    //     })
-    //     return openModal
-    // }
+    openUpdateIssueModal = () => {
+        const selectedItemCopy = {...this.props.selectedItem}
+        const priorityArr = ["Normal", "Important","Urgent"]
+        this.setState({
+            isUpdateModalOpen: true,
+            title: selectedItemCopy.title,
+            details: selectedItemCopy.details,
+            priority: priorityArr[selectedItemCopy.priority],
+            imgSrc: selectedItemCopy.imgSrc,
+            index: this.props.selectedIndex
+        })
+    }
 
-    updateItem = () => {
-        this.props.openUpdateModal(true)
+    openUpdateMessageModal = () => {
+        const selectedItemCopy = {...this.props.selectedItem}
+        this.setState({
+            isUpdateModalOpen: true,
+            title: selectedItemCopy.title,
+            details: selectedItemCopy.details,
+            priority: selectedItemCopy.priority,
+            imgSrc: selectedItemCopy.imgSrc,
+            index: this.props.selectedIndex
+        })
+    }
+
+    closeModal = () => {
+        this.setState({
+            isUpdateModalOpen: false,
+        })
+    }
+
+    editItemDetails = () => {
+        const updatedItemObj = {
+            title: this.state.title,
+            details: this.state.details,
+            priority: this.state.priority,
+            imgSrc: this.state.imgSrc,
+            index: this.state.index
+        }
+        this.props.updateItemDetails(updatedItemObj)
+        this.props.closeContent(false)
+        this.closeModal()
     }
 
     render(){ 
+        console.log(this.props.selectedItem)
         const priorityArr = ["Normal", "Important","Urgent"]
         const ativeUserCopy = {...this.props.activeUser}        
         const itemComments = this.props.selectedItem.comments.map( comment => {
@@ -68,17 +102,63 @@ class IssueMessageContent extends React.Component {
                     </div>
                     <div className="d-flex " >
                         <label className="mr-2 p-0">Priority:</label>
-                        <p className="p-0">{priorityArr[this.props.selectedItem.priority]}</p>
+                        <p className="p-0">{(this.props.IssueUpdateDeleteBtn) ? priorityArr[this.props.selectedItem.priority] : this.props.selectedItem.priority}</p>
                     </div>
                     {((this.props.IssueUpdateDeleteBtn && (this.props.selectedItem.userId===ativeUserCopy.userId)) ||
                     (ativeUserCopy.isCommitteeMember && this.props.MessagesUpdateDeleteBtn)) ? 
                     <div className="align-self-end mt-auto ">
-                        <Button onClick={this.updateItem} type="button">Update</Button>
+                        <Button onClick={(this.props.IssueUpdateDeleteBtn) ? this.openUpdateIssueModal : this.openUpdateMessageModal}
+                         type="button">Update</Button>
                         <Button onClick={this.deleteItem} className="ml-1" variant="danger">{this.props.deleteBtnText}</Button>
                     </div> : null}
-                    {/* <UpdateModal
-                        isUpdateModalOpen={this.state.isUpdateModalOpen}
-                        UpdateModalTitle={this.props.UpdateModalTitle}/> */}
+                    <div className="c-new-issue-modal">
+                        <Modal.Dialog 
+                        size="lg"
+                        aria-labelledby="example-modal-sizes-title-lg"
+                        className={this.state.isUpdateModalOpen ? "new-issue-modal" : "close"}>
+                            <Modal.Header closeButton>
+                                <Modal.Title>{this.props.UpdateModalTitle}</Modal.Title>
+                            </Modal.Header>
+
+                            <Modal.Body>
+                            <Form >
+                                <Form.Group as={Row}>
+                                    <Form.Label column sm={2}>Title: </Form.Label>
+                                    <Col sm={10}>
+                                        <Form.Control name="title" onChange={this.handleChange} value={this.state.title} required type="text"  />
+                                    </Col>
+                                </Form.Group>
+                                <Form.Group as={Row}>
+                                    <Form.Label column sm={2}>Details</Form.Label>
+                                    <Col sm={10}>
+                                        <Form.Control name="details" onChange={this.handleChange} value={this.state.details} required as="textarea" rows={3} />
+                                    </Col>
+                                </Form.Group>
+
+                                <Form.Group as={Row} controlId="exampleForm.ControlSelect1">
+                                    <Form.Label column sm={2}>Priority</Form.Label>
+                                    <Col sm={10}>
+                                        <Form.Control name="priority" onChange={this.handleChange} value={this.state.priority} as="select">
+                                            {this.props.priorityOptions}
+                                        </Form.Control>
+                                    </Col>
+                                </Form.Group>
+                                <Form.Group as={Row}>
+                                    <Form.Label column sm={2}>image URL:</Form.Label>
+                                    <Col sm={10}>
+                                        <Form.Control name="imgSrc" onChange={this.handleChange} value={this.state.imgSrc} type="text" />
+                                        <img src=""/>
+                                    </Col>
+                                </Form.Group>
+                            </Form>
+                            </Modal.Body>
+
+                            <Modal.Footer>
+                                <Button onClick={this.closeModal} variant="secondary">Close</Button>
+                                <Button onClick={this.editItemDetails} variant="primary" >Save Changes</Button>
+                            </Modal.Footer>
+                        </Modal.Dialog>
+                    </div>
                 </div>
                 <div className="flex-fill members-comments">
                     <Form.Group as={Row}>

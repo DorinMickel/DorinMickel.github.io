@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
 import {withRouter} from "react-router-dom"
-import Messages from './Messages'
+
 
 class Dashboard extends React.Component {
     constructor(props){

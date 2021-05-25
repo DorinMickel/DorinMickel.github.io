@@ -23,7 +23,8 @@ class Messages extends React.Component {
             priority: 'info',
             imgSrc: '',
             filterOption: '',
-            searchText: ''
+            searchText: '',
+            isUpdateModalOpen: false
         }
     }
     
@@ -63,6 +64,12 @@ class Messages extends React.Component {
         })
     }
     
+    closeContent = (close) => {
+        this.setState({
+            isOpen: close,
+        })
+    }
+
     render(){
         const messagesList = this.props.allMessages.filter(message => {
             return((message.priority === this.state.filterOption || this.state.filterOption === '') &&
@@ -86,10 +93,17 @@ class Messages extends React.Component {
                         activeUser={this.props.activeUser}
                         deleteBtnText="Delete Message"
                         UpdateModalTitle="Update Message Details"
+                        MessagesUpdateDeleteBtn={true}
+                        //
+                        closeContent={this.closeContent}
+                            priorityOptions={[
+                                <option value="info">Info</option>,
+                                <option value="important">Important!</option>]}
+                        updateItemDetails={this.props.updateItemDetails}
                     />
                 </div>
                 )
-        })
+        }).reverse()
         return(
             <Container className="p-messages">
                 {this.props.location.pathname === "/messages" &&

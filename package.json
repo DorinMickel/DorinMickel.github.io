@@ -2,7 +2,7 @@
   "name": "hoa-committee",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://dorinmickel.github.io/HOA-comittee",
+  "homepage": "https://dorinmickel.github.io/HOA-comittee/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.2.6",

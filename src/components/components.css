@@ -56,10 +56,17 @@
 .issue-details-btn {
     align-self: flex-end;
     margin-left: 10px;
+    
 }
 
 .issue-details-btn > button{
     margin-left: 5px;
+    margin-top: 10px;
+}
+
+.comment-content{
+    width: 10rem;
+    overflow-wrap: break-word;
 }
 
 @media screen and (max-width: 1000px) {

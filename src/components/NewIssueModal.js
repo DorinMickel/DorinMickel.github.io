@@ -19,20 +19,29 @@ class NewIssueModal extends React.Component {
     
     openModal = () => {
         this.setState({
-            isModalOpen: true
+            isModalOpen: true,
+            title: '',
+            details: '',
+            priority: this.props.priority,
+            imgSrc: '',
         })
     }
 
     handleChange = (event) => {
         this.setState({
-            [event.target.name]: event.target.value
+            [event.target.name]: event.target.value,
         })
     }
 
     closeModal = () => {
-        this.setState({
-            isModalOpen: false,
-        })
+        if(this.state.isModalOpen === true){
+            this.setState({
+                isModalOpen: false,
+            })
+        }
+        else{
+            this.props.openUpdateModal(false)
+        }
     }
 
     addNewItem = () => {
@@ -47,52 +56,62 @@ class NewIssueModal extends React.Component {
             comments: [],
             date: date
         }
-        this.props.createNewItem(newItemObj)
+        console.log(this.state.priority)
+        if(this.state.isModalOpen === true){
+            this.props.createNewItem(newItemObj)
+        }
+        
         this.closeModal()
-        this.setState({
-            title: '',
-            details: '',
-            priority: this.props.priority,
-            imgSrc: '',
-        })
     }
 
     
 
     render(){
-        
         return(
             <div className="c-new-issue-modal">
+                {(this.props.activeUser.isCommitteeMember || this.props.tenantCreateIssue) ? 
                 <ModalButton
                     openModal={this.openModal}
-                    buttonText={this.props.buttonText}/>
+                    buttonText={this.props.buttonText}/> : null}
                 <Modal.Dialog 
                 size="lg"
                 aria-labelledby="example-modal-sizes-title-lg"
-                className={this.state.isModalOpen ? "new-issue-modal" : "close"}>
+                //
+                className={(this.state.isModalOpen || this.props.isUpdateModalOpen) ? "new-issue-modal" : "close"}>
                     <Modal.Header closeButton>
                         <Modal.Title>{this.props.modalTitle}</Modal.Title>
                     </Modal.Header>
 
                     <Modal.Body>
-                    <Form noValidate validated={this.validated} onSubmit={this.handleSubmit}>
+                    <Form noValidate validated={this.validated} >
                         <Form.Group as={Row}>
                             <Form.Label column sm={2}>Title: </Form.Label>
                             <Col sm={10}>
-                                <Form.Control name="title" onChange={this.handleChange} value={this.state.title} required type="text"  />
+                                <Form.Control name="title" onChange={this.handleChange} value={this.state.title} required type="text" 
+                                // defaultValue={(this.props.isUpdateModalOpen && !this.state.isModalOpen) ? this.props.selectedItem.title : ''}
+                                // key={Math.floor((Math.random() * 1000))} 
+                                />
+                                <Form.Control.Feedback type="invalid">Please enter item title</Form.Control.Feedback>
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row}>
                             <Form.Label column sm={2}>Details</Form.Label>
                             <Col sm={10}>
-                                <Form.Control name="details" onChange={this.handleChange} value={this.state.details} required as="textarea" rows={3} />
+                                <Form.Control name="details" onChange={this.handleChange} value={this.state.details} required as="textarea" rows={3}
+                                // defaultValue={(this.props.isUpdateModalOpen && !this.state.isModalOpen) ? this.props.selectedItem.details : ''} 
+                                // key={Math.floor((Math.random() * 1000))}
+                                />
+                                <Form.Control.Feedback type="invalid">Please enter item details</Form.Control.Feedback>
                             </Col>
                         </Form.Group>
 
                         <Form.Group as={Row} controlId="exampleForm.ControlSelect1">
                             <Form.Label column sm={2}>Priority</Form.Label>
                             <Col sm={10}>
-                                <Form.Control name="priority" onChange={this.handleChange} value={this.state.priority} as="select">
+                                <Form.Control name="priority" onChange={this.handleChange} value={this.state.priority} as="select" 
+                                // defaultValue={(this.props.isUpdateModalOpen && !this.state.isModalOpen) ? this.props.selectedItem.priority : ''} 
+                                // key={Math.floor((Math.random() * 1000))}
+                                >
                                     {this.props.priorityOptions}
                                 </Form.Control>
                             </Col>
@@ -100,7 +119,10 @@ class NewIssueModal extends React.Component {
                         <Form.Group as={Row}>
                             <Form.Label column sm={2}>image URL:</Form.Label>
                             <Col sm={10}>
-                                <Form.Control name="imgSrc" onChange={this.handleChange} value={this.state.imgSrc} type="text" />
+                                <Form.Control name="imgSrc" onChange={this.handleChange} value={this.state.imgSrc} type="text" 
+                                // defaultValue={(this.props.isUpdateModalOpen && !this.state.isModalOpen) ? this.props.selectedItem.imgSrc : ''}
+                                // key={Math.floor((Math.random() * 1000))}
+                                />
                                 <img src=""/>
                             </Col>
                         </Form.Group>
