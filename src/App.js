@@ -116,29 +116,13 @@ class App extends React.Component {
     })
   }
 
-  // filterTenants = (filterInputText) => {
-  //   const filteredTenantsList = this.state.allTenants.filter(input => {
-  //       return (input.name.includes(filterInputText))
-  //   })
-  //   if(filterInputText != ''){
-  //       this.setState({
-  //           allTenants: filteredTenantsList
-  //       })
-  //   } else {
-  //       this.setState({
-  //           allTenants: JSON.parse(localStorage.localTenants)
-  //       })
-  //   }
-  // }
-
-
-
   createNewMessage = (newMessageObj) => {
     const localMesagges = JSON.stringify(this.state.allMessages.concat(newMessageObj))
     localStorage.localMesagges = localMesagges;
     this.setState({
       allMessages: this.state.allMessages.concat(newMessageObj)
     })
+
   }
 
   reportNewIssue = (issueObj) => {
@@ -147,6 +131,7 @@ class App extends React.Component {
     this.setState({
       allIssues: this.state.allIssues.concat(issueObj)
     })
+    console.log(this.state.allIssues)
   }
 
   addIssueComment = (comment, index) => {
@@ -163,6 +148,27 @@ class App extends React.Component {
       allMessages: this.state.allMessages
     })
     localStorage.localMessages = JSON.stringify(this.state.allMessages)
+  }
+
+  updateIssueItem = (item) => {
+    const updatedItem = this.state.allIssues.find( issue => {
+      return (issue.id === item.id)
+    })
+    console.log(updatedItem)
+  } 
+
+  editTenantDetails = (updatedTenantObj, index) => {
+    const tenantToUpdate = this.state.allTenants[index]
+    tenantToUpdate.name = updatedTenantObj.name
+    tenantToUpdate.email = updatedTenantObj.email
+    tenantToUpdate.pwd = updatedTenantObj.pwd
+    tenantToUpdate.apt = updatedTenantObj.apt
+
+    this.setState({
+      allTenants: this.state.allTenants
+    })
+    localStorage.localTenants = JSON.stringify(this.state.allTenants)
+    
   }
 
   logout = () => {
@@ -198,7 +204,8 @@ class App extends React.Component {
           />
         </Route>
         <Route exact path={["/dashboard", "/tenants", "/messages", "/issues", "/voting"]}>
-        <MainNavbar/>
+        <MainNavbar
+        activeUser={this.state.activeUser}/>
         </Route>
         <Route exact path="/dashboard">
           <Dashboard 
@@ -227,7 +234,7 @@ class App extends React.Component {
           allTenants={this.state.allTenants}
           addNewTenant={this.addNewTenant}
           deleteTenant={this.deleteTenant}
-          // filterTenants={this.filterTenants}
+          editTenantDetails={this.editTenantDetails}
           /> 
         </Route>
         <Route exact path="/messages">
@@ -237,6 +244,7 @@ class App extends React.Component {
           createNewItem={this.createNewMessage}
           removeMessage={this.removeMessage}
           addMessageComment={this.addMessageComment}
+          updateItem={this.updateItem}
           />
         </Route>
         <Route exact path="/issues">
@@ -246,6 +254,7 @@ class App extends React.Component {
           createNewItem={this.reportNewIssue}
           removeIssue={this.removeIssue}
           addIssueComment={this.addIssueComment}
+          updateItem={this.updateIssueItem}
           />
         </Route>
         <Route exact path="/voting">

@@ -14,6 +14,7 @@ class Tenants extends React.Component{
             apt: '',
             isTenantDetailsOpen: false,
             isModalOpen: false,
+            isUpdateModalOpen: false,
             filterText: ''
         }
     }
@@ -39,7 +40,8 @@ class Tenants extends React.Component{
     }
     closeModal = () => {
         this.setState({
-            isModalOpen: false
+            isModalOpen: false,
+            isUpdateModalOpen: false
         })
     }
     addTanent = () => {
@@ -72,11 +74,31 @@ class Tenants extends React.Component{
             [event.target.name]: event.target.value
         })
     }
+
+    updateTenantDetails = (tenantIndex) => {
+        this.setState({
+            isUpdateModalOpen: true,
+            index: tenantIndex
+        })
+    }
+
+    editTenantDetails = () => {
+        const updateTanentObj = {
+            userId: this.state.userId,
+            name: this.state.name,
+            email: this.state.email,
+            pwd: this.state.pwd,
+            apt: this.state.apt,
+        }
+        this.closeModal()
+        this.props.editTenantDetails(updateTanentObj, this.state.index)
+    }
+
     render(){
         const tenantsList = this.props.allTenants.filter(tenant => {
             const input = this.state.filterText
             return (tenant.name.toLowerCase().includes(input) || tenant.email.includes(input) || tenant.apt.includes(input) || input === '')
-        }).map(tenant => {
+        }).map((tenant, tenantIndex) => {
             return (
                 <div>
                     <ListGroup.Item action onClick={() => this.showDetails(tenant)} className="tenants-list">
@@ -86,7 +108,7 @@ class Tenants extends React.Component{
                         <div>{`Email: ${this.state.email}`}</div>
                         <div>{`Apt: ${this.state.apt}`}</div>
                         <div className="tenant-changes-btn">
-                            <Button>Update</Button>
+                            <Button onClick={() => this.updateTenantDetails(tenantIndex)}>Update</Button>
                             <Button onClick={this.deleteTenant} variant="danger">Delete</Button>
                         </div>
                     </div>
@@ -103,7 +125,7 @@ class Tenants extends React.Component{
                 <Button onClick={this.openModal} className="add-tenant-btn" type="button">
                     Add Tenant
                 </Button>
-                <Modal.Dialog className={this.state.isModalOpen ? "add-tenant-modal" : "close"}>
+                <Modal.Dialog className={(this.state.isModalOpen || this.state.isUpdateModalOpen) ? "add-tenant-modal" : "close"}>
                     <Modal.Header closeButton>
                         <Modal.Title>Add new tenant</Modal.Title>
                     </Modal.Header>
@@ -135,7 +157,7 @@ class Tenants extends React.Component{
 
                     <Modal.Footer>
                         <Button onClick={this.closeModal} variant="secondary">Close</Button>
-                        <Button variant="primary" onClick={this.addTanent}>Save changes</Button>
+                        <Button variant="primary" onClick={(this.state.isModalOpen && !this.state.isUpdateModalOpen) ? this.addTanent : this.editTenantDetails}>Save changes</Button>
                     </Modal.Footer>
                 </Modal.Dialog>
                 <ListGroup >
