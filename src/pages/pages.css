@@ -132,3 +132,15 @@
 .issues-list-items {
     border: solid rgb(87, 86, 86) 1px;
 }
+
+.hompage-img {
+    display: flex;
+    justify-content: center;
+    margin: 30px;
+    
+}
+
+.hompage-img img {
+    width: 50%;
+    border-radius: 30px;
+}
