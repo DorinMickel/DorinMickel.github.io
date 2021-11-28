@@ -1,6 +1,7 @@
 import React from 'react';
 import { Nav, Navbar } from 'react-bootstrap';
 import './pages.css';
+import maxresdefault from "./maxresdefault.jpg"
 
 class Homepage extends React.Component {
     constructor(props){
@@ -20,7 +21,7 @@ class Homepage extends React.Component {
                     </Navbar.Collapse>
                 </Navbar>
                 <div className="hompage-img">
-                    <img src="https://i.ytimg.com/vi/Ya69WuHcq8M/maxresdefault.jpg"/>
+                    <img src={maxresdefault}/>
                 </div>
             </div>
         )
