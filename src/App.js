@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
-import { HashRouter, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import './App.css';
 import Homepage from './pages/Homepage';
 import Login from './pages/Login';
@@ -204,7 +204,7 @@ class App extends React.Component {
 
   render(){
     return (
-      <HashRouter>
+      <React.Fragment>
         <Route exact path="/">
           <Homepage></Homepage>
         </Route>
@@ -281,7 +281,7 @@ class App extends React.Component {
           <Voting/>
         </Route>
         
-      </HashRouter>
+      </React.Fragment>
     );
   }
 }
