@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/HOA-comittee/static/css/main.156437f2.chunk.css",
+    "main.js": "/HOA-comittee/static/js/main.2b9258a6.chunk.js",
+    "main.js.map": "/HOA-comittee/static/js/main.2b9258a6.chunk.js.map",
+    "runtime-main.js": "/HOA-comittee/static/js/runtime-main.373667dd.js",
+    "runtime-main.js.map": "/HOA-comittee/static/js/runtime-main.373667dd.js.map",
+    "static/css/2.800be05e.chunk.css": "/HOA-comittee/static/css/2.800be05e.chunk.css",
+    "static/js/2.48357163.chunk.js": "/HOA-comittee/static/js/2.48357163.chunk.js",
+    "static/js/2.48357163.chunk.js.map": "/HOA-comittee/static/js/2.48357163.chunk.js.map",
+    "index.html": "/HOA-comittee/index.html",
+    "static/css/2.800be05e.chunk.css.map": "/HOA-comittee/static/css/2.800be05e.chunk.css.map",
+    "static/css/main.156437f2.chunk.css.map": "/HOA-comittee/static/css/main.156437f2.chunk.css.map",
+    "static/js/2.48357163.chunk.js.LICENSE.txt": "/HOA-comittee/static/js/2.48357163.chunk.js.LICENSE.txt",
+    "static/media/maxresdefault.1754e671.jpg": "/HOA-comittee/static/media/maxresdefault.1754e671.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.373667dd.js",
+    "static/css/2.800be05e.chunk.css",
+    "static/js/2.48357163.chunk.js",
+    "static/css/main.156437f2.chunk.css",
+    "static/js/main.2b9258a6.chunk.js"
+  ]
+}
