@@ -9,7 +9,7 @@ import { createHashHistory } from 'history'
 const history = createHashHistory()
 
 ReactDOM.render(
-  <HashRouter history={history}>
+  <HashRouter basename={process.env.PUBLIC_URL} history={history}>
     <App />
   </HashRouter>,
   document.getElementById('root')
