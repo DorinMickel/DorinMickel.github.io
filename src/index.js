@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import { HashRouter } from 'react-router-dom';
+import { createHashHistory } from 'history'
 // import reportWebVitals from './reportWebVitals';
 
+const history = createHashHistory()
+
 ReactDOM.render(
-  <HashRouter>
+  <HashRouter history={history}>
     <App />
   </HashRouter>,
   document.getElementById('root')
